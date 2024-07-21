@@ -5,8 +5,12 @@
     ".": "./src/capnp/mod.ts",
     "./constants": "./src/capnp/constants.ts",
     "./util": "./src/capnp/util.ts",
+    "./errors": "./src/capnp/errors.ts",
     "./capnpc": "./src/capnpc/mod.ts",
-    "./capnpc/util": "./src/capnpc/util.ts"
+    "./capnpc/util": "./src/capnpc/util.ts",
+    "./capnpc/constants": "./src/capnpc/constants.ts",
+    "./capnpc/errors": "./src/capnpc/errors.ts",
+    "./capnpc/compiler": "./src/capnpc/compiler.ts",
   },
   "tasks": {
     "dev": "deno run --watch main.ts"
