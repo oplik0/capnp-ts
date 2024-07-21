@@ -2,8 +2,18 @@
  * @author jdiaz5513
  */
 
-import { initTrace, ts } from '../deps.ts';
-const { factory: f } = ts;
+import initTrace from 'debug';
+import ts, {
+    Block,
+    Expression,
+    factory as f,
+    HeritageClause,
+    MethodDeclaration,
+    ParameterDeclaration,
+    PropertyDeclaration,
+    SyntaxKind,
+    TypeNode,
+} from 'typescript';
 
 import * as s from '../capnp/std/schema.capnp.ts';
 import * as capnp from '../capnp/mod.ts';
@@ -16,29 +26,29 @@ import * as util from './util.ts';
 
 const trace = initTrace('capnpc:ast-creators');
 
-export function createClassExtends(identifierText: string): ts.HeritageClause {
+export function createClassExtends(identifierText: string): HeritageClause {
     const types = [f.createExpressionWithTypeArguments(f.createIdentifier(identifierText), [])];
-    return f.createHeritageClause(ts.SyntaxKind.ExtendsKeyword, types);
+    return f.createHeritageClause(SyntaxKind.ExtendsKeyword, types);
 }
 
-export function createConcreteListProperty(ctx: CodeGeneratorFileContext, field: s.Field): ts.PropertyDeclaration {
+export function createConcreteListProperty(ctx: CodeGeneratorFileContext, field: s.Field): PropertyDeclaration {
     const name = `_${util.c2t(field.getName())}`;
     const type = f.createTypeReferenceNode(getJsType(ctx, field.getSlot().getType(), true), __);
-    let u: ts.Expression | undefined;
-    return f.createPropertyDeclaration([STATIC], name, __, type, u as ts.Expression);
+    let u: Expression | undefined;
+    return f.createPropertyDeclaration([STATIC], name, __, type, u as Expression);
 }
 
-export function createConstProperty(node: s.Node): ts.PropertyDeclaration {
+export function createConstProperty(node: s.Node): PropertyDeclaration {
     const name = util.c2s(getDisplayNamePrefix(node));
     const initializer = createValueExpression(node.getConst().getValue());
     return f.createPropertyDeclaration([STATIC, READONLY], name, __, __, initializer);
 }
 
 export function createExpressionBlock(
-    expressions: ts.Expression[],
+    expressions: Expression[],
     returns: boolean,
     allowSingleLine: boolean,
-): ts.Block {
+): Block {
     const statements = expressions.map((e, i) =>
         i === expressions.length - 1 && returns ? f.createReturnStatement(e) : f.createExpressionStatement(e)
     );
@@ -48,11 +58,11 @@ export function createExpressionBlock(
 
 export function createMethod(
     name: string,
-    parameters: ts.ParameterDeclaration[],
-    type: ts.TypeNode | undefined,
-    expressions: ts.Expression[],
+    parameters: ParameterDeclaration[],
+    type: TypeNode | undefined,
+    expressions: Expression[],
     allowSingleLine = true,
-): ts.MethodDeclaration {
+): MethodDeclaration {
     return f.createMethodDeclaration(
         __,
         __,
@@ -65,21 +75,21 @@ export function createMethod(
     );
 }
 
-export function createNestedNodeProperty(node: s.Node): ts.PropertyDeclaration {
+export function createNestedNodeProperty(node: s.Node): PropertyDeclaration {
     const name = getDisplayNamePrefix(node);
     const initializer = f.createIdentifier(getFullClassName(node));
 
     return f.createPropertyDeclaration([STATIC, READONLY], name, __, __, initializer);
 }
 
-export function createUnionConstProperty(fullClassName: string, field: s.Field): ts.PropertyDeclaration {
+export function createUnionConstProperty(fullClassName: string, field: s.Field): PropertyDeclaration {
     const name = util.c2s(field.getName());
     const initializer = f.createPropertyAccessExpression(f.createIdentifier(`${fullClassName}_Which`), name);
 
     return f.createPropertyDeclaration([STATIC, READONLY], name, __, __, initializer);
 }
 
-export function createValueExpression(value: s.Value): ts.Expression {
+export function createValueExpression(value: s.Value): Expression {
     trace('createValueExpression(%s)', value);
 
     let p: capnp.Pointer;

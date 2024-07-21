@@ -1,5 +1,5 @@
-import { assertEquals, assertThrows, Buffer, test } from '../../test_deps.ts';
-
+import { assertEquals, assertThrows, test } from '../../test_deps.ts';
+import { Buffer } from 'buffer';
 import * as C from '../../../src/capnp/constants.ts';
 import { Message } from '../../../src/capnp/serialization/mod.ts';
 import { MultiSegmentArena } from '../../../src/capnp/serialization/arena/mod.ts';

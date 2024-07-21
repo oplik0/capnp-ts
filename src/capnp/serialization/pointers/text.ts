@@ -2,7 +2,7 @@
  * @author jdiaz5513
  */
 
-import { initTrace } from '../../../deps.ts';
+import initTrace from 'debug';
 
 import { decodeUtf8, encodeUtf8 } from '../../util.ts';
 import { ListElementSize } from '../list-element-size.ts';

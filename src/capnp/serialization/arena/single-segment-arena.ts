@@ -2,7 +2,7 @@
  * @author jdiaz5513
  */
 
-import { initTrace } from '../../../deps.ts';
+import initTrace from 'debug';
 import { DEFAULT_BUFFER_SIZE, MIN_SINGLE_SEGMENT_GROWTH } from '../../constants.ts';
 import { SEG_GET_NON_ZERO_SINGLE, SEG_NOT_WORD_ALIGNED } from '../../errors.ts';
 import { format, padToWord } from '../../util.ts';

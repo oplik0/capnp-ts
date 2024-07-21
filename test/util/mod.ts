@@ -1,4 +1,4 @@
-import { initTrace } from '../../src/deps.ts';
+import initTrace from 'debug';
 import { assertEquals, fail, testcheck } from '../test_deps.ts';
 import { type Test } from '../test_deps.ts';
 

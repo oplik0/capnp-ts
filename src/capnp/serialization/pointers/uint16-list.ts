@@ -2,7 +2,7 @@
  * @author jdiaz5513
  */
 
-import { initTrace } from '../../../deps.ts';
+import initTrace from 'debug';
 
 import { ListElementSize } from '../list-element-size.ts';
 import { _ListCtor, List } from './list.ts';

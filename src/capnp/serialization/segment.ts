@@ -2,7 +2,7 @@
  * @author jdiaz5513
  */
 
-import { initTrace } from '../../deps.ts';
+import initTrace from 'debug';
 
 import { MAX_SEGMENT_LENGTH, NATIVE_LITTLE_ENDIAN } from '../constants.ts';
 import { SEG_REPLACEMENT_BUFFER_TOO_SMALL, SEG_SIZE_OVERFLOW } from '../errors.ts';
@@ -139,6 +139,16 @@ export class Segment implements DataView {
 
     getCapacity(): number {
         return this.buffer.byteLength;
+    }
+
+    /**
+     * Read a float16 value out of this segment.
+     *
+     * @param {number} byteOffset The offset in bytes to the value.
+     * @returns {number} The value.
+     */
+    getFloat16(byteOffset: number): number {
+        throw this._dv.getFloat16(byteOffset, true);
     }
 
     /**
@@ -305,6 +315,17 @@ export class Segment implements DataView {
 
     setBigUint64(byteOffset: number, value: bigint, littleEndian?: boolean): void {
         this._dv.setBigUint64(byteOffset, value, littleEndian);
+    }
+
+    /**
+     * Write a float16 value to the specified offset.
+     *
+     * @param {number} byteOffset The offset from the beginning of the buffer.
+     * @param {number} val The value to store.
+     * @returns {void}
+     */
+    setFloat16(byteOffset: number, val: number): void {
+        this._dv.setFloat16(byteOffset, val, true);
     }
 
     /**

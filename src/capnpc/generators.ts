@@ -1,8 +1,7 @@
-import { initTrace } from '../deps.ts';
+import initTrace from 'debug';
 import * as s from '../capnp/std/schema.capnp.ts';
 import { format } from '../capnp/util.ts';
-import { ts } from '../deps.ts';
-const { factory: f } = ts;
+import { ClassElement, Expression, factory as f, NodeFlags, PropertyAssignment, SyntaxKind } from 'typescript';
 
 import {
     createClassExtends,
@@ -117,7 +116,7 @@ export function generateConcreteListInitializer(
     ctx.statements.push(f.createExpressionStatement(f.createAssignment(left, right)));
 }
 
-export function generateDefaultValue(field: s.Field): ts.PropertyAssignment {
+export function generateDefaultValue(field: s.Field): PropertyAssignment {
     const name = field.getName();
     const slot = field.getSlot();
     const whichSlotType = slot.getType().which();
@@ -194,7 +193,7 @@ export function generateFileId(ctx: CodeGeneratorFileContext): void {
             [EXPORT],
             f.createVariableDeclarationList(
                 [f.createVariableDeclaration('_capnpFileId', __, __, fileId)],
-                ts.NodeFlags.Const,
+                NodeFlags.Const,
             ),
         ),
     );
@@ -266,7 +265,7 @@ const listLengthParameterName = 'length';
 
 export function generateStructFieldMethods(
     ctx: CodeGeneratorFileContext,
-    members: ts.ClassElement[],
+    members: ClassElement[],
     node: s.Node,
     field: s.Field,
 ): void {
@@ -329,8 +328,8 @@ export function generateStructFieldMethods(
     let has = false;
     let get;
     let set;
-    let getArgs: ts.Expression[];
-    let setArgs: ts.Expression[];
+    let getArgs: Expression[];
+    let setArgs: Expression[];
 
     switch (whichType) {
         case s.Type.ANY_POINTER:
@@ -575,7 +574,7 @@ export function generateStructFieldMethods(
             THIS,
         ]);
         const right = discriminantValueLiteral;
-        const expressions = [f.createBinaryExpression(left, ts.SyntaxKind.EqualsEqualsEqualsToken, right)];
+        const expressions = [f.createBinaryExpression(left, SyntaxKind.EqualsEqualsEqualsToken, right)];
 
         members.push(createMethod(`is${properName}`, [], BOOLEAN_TYPE, expressions));
     }
@@ -630,7 +629,7 @@ export function generateStructNode(ctx: CodeGeneratorFileContext, node: s.Node, 
         generateUnnamedUnionEnum(ctx, fullClassName, unionFields);
     }
 
-    const members: ts.ClassElement[] = [];
+    const members: ClassElement[] = [];
 
     // static readonly CONSTANT = 'foo';
     members.push(...consts.map(createConstProperty));
@@ -657,7 +656,7 @@ export function generateStructNode(ctx: CodeGeneratorFileContext, node: s.Node, 
             f.isSlot() && f.getSlot().getHadExplicitDefault() && f.getSlot().getType().which() !== s.Type.VOID
                 ? acc.concat(generateDefaultValue(f))
                 : acc,
-        [] as ts.PropertyAssignment[],
+        [] as PropertyAssignment[],
     );
 
     // static reaodnly _capnp = { displayName: 'MyStruct', id: '4732bab4310f81', size = new __O(8, 8) };
@@ -692,7 +691,7 @@ export function generateStructNode(ctx: CodeGeneratorFileContext, node: s.Node, 
     // toString(): string { return 'MyStruct_' + super.toString(); }
     const toStringExpression = f.createBinaryExpression(
         f.createStringLiteral(`${fullClassName}_`),
-        ts.SyntaxKind.PlusToken,
+        SyntaxKind.PlusToken,
         f.createCallExpression(f.createIdentifier('super.toString'), __, []),
     );
     members.push(createMethod('toString', [], STRING_TYPE, [toStringExpression], true));

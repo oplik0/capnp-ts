@@ -2,7 +2,7 @@
  * @author jdiaz5513
  */
 
-import { initTrace } from '../../deps.ts';
+import initTrace from 'debug';
 import { DEFAULT_BUFFER_SIZE, DEFAULT_TRAVERSE_LIMIT } from '../constants.ts';
 import {
     MSG_INVALID_FRAME_HEADER,

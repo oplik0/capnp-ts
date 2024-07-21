@@ -1,5 +1,7 @@
-import { fs, initTrace, path, ts } from '../deps.ts';
-
+import { createPrinter, createSourceFile, EmitHint, ScriptKind, ScriptTarget } from 'typescript';
+import { mkdirSync, writeFileSync } from 'fs';
+import initTrace from 'debug';
+import { dirname } from 'path';
 import * as s from '../capnp/std/schema.capnp.ts';
 import { CodeGeneratorContext } from './code-generator-context.ts';
 import { CodeGeneratorFileContext } from './code-generator-file-context.ts';
@@ -30,9 +32,9 @@ export function compile(ctx: CodeGeneratorFileContext): string {
 
     ctx.concreteLists.forEach(([fullClassName, field]) => generateConcreteListInitializer(ctx, fullClassName, field));
 
-    const sourceFile = ts.createSourceFile(ctx.tsPath, '', ts.ScriptTarget.Latest, false, ts.ScriptKind.TS);
-    const printer = ts.createPrinter();
-    const source = ctx.statements.map((s) => printer.printNode(ts.EmitHint.Unspecified, s, sourceFile)).join('\n') +
+    const sourceFile = createSourceFile(ctx.tsPath, '', ScriptTarget.Latest, false, ScriptKind.TS);
+    const printer = createPrinter();
+    const source = ctx.statements.map((s) => printer.printNode(EmitHint.Unspecified, s, sourceFile)).join('\n') +
         '\n';
 
     return SOURCE_COMMENT + source;
@@ -60,7 +62,7 @@ export function writeTsFiles(ctx: CodeGeneratorContext): void {
     ctx.files.forEach((f) => {
         trace('writing %s', f.tsPath);
 
-        fs.mkdirSync(path.dirname(f.tsPath), { recursive: true });
-        fs.writeFileSync(f.tsPath, compile(f), { encoding: 'utf-8' });
+        mkdirSync(dirname(f.tsPath), { recursive: true });
+        writeFileSync(f.tsPath, compile(f), { encoding: 'utf-8' });
     });
 }

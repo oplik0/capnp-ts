@@ -2,8 +2,8 @@
  * @author jdiaz5513
  */
 
+import { Statement } from 'typescript';
 import * as s from '../capnp/std/schema.capnp.ts';
-import { ts } from '../deps.ts';
 
 export class CodeGeneratorFileContext {
     concreteLists: Array<[string, s.Field]>;
@@ -12,7 +12,7 @@ export class CodeGeneratorFileContext {
     imports: s.CodeGeneratorRequest_RequestedFile_Import[];
     nodes: s.Node[];
     req: s.CodeGeneratorRequest;
-    statements: ts.Statement[];
+    statements: Statement[];
     tsPath: string;
 
     constructor(req: s.CodeGeneratorRequest, file: s.CodeGeneratorRequest_RequestedFile) {

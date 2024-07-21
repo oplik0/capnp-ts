@@ -1,4 +1,4 @@
-import { initTrace } from '../../../deps.ts';
+import initTrace from 'debug';
 
 import { PTR_ADOPT_WRONG_MESSAGE, PTR_ALREADY_ADOPTED, PTR_INVALID_POINTER_TYPE } from '../../errors.ts';
 import { format } from '../../util.ts';

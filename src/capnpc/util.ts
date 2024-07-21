@@ -1,4 +1,4 @@
-import { initTrace } from '../deps.ts';
+import initTrace from 'debug';
 
 const trace = initTrace('capnpc:util');
 trace('load');

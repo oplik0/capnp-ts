@@ -1,10 +1,22 @@
-import { fs, initTrace, process, ts } from '../deps.ts';
-import { Buffer } from '../deps.ts';
+import { Buffer } from 'buffer';
 import * as capnp from '../capnp/mod.ts';
 import * as s from '../capnp/std/schema.capnp.ts';
 import { CodeGeneratorContext } from './code-generator-context.ts';
 import { loadRequest, writeTsFiles } from './compiler.ts';
 import * as E from './errors.ts';
+import initTrace from 'debug';
+import process from 'process';
+import { unlinkSync } from 'fs';
+import {
+    CompilerOptions,
+    createProgram,
+    DiagnosticCategory,
+    flattenDiagnosticMessageText,
+    getPreEmitDiagnostics,
+    ModuleKind,
+    ModuleResolutionKind,
+    ScriptTarget,
+} from 'typescript';
 
 const trace = initTrace('capnpc');
 trace('load');
@@ -17,10 +29,10 @@ trace('load');
  * the JS further to meet whatever ES version / module system / minification
  * needs they have.
  */
-const COMPILE_OPTIONS: ts.CompilerOptions = {
+const COMPILE_OPTIONS: CompilerOptions = {
     declaration: true,
-    module: ts.ModuleKind.ES2022,
-    moduleResolution: ts.ModuleResolutionKind.NodeNext,
+    module: ModuleKind.ES2022,
+    moduleResolution: ModuleResolutionKind.NodeNext,
     noEmitOnError: false,
     noFallthroughCasesInSwitch: true,
     noImplicitReturns: true,
@@ -32,7 +44,7 @@ const COMPILE_OPTIONS: ts.CompilerOptions = {
     sourceMap: false,
     strict: true,
     stripInternal: true,
-    target: ts.ScriptTarget.ES2022,
+    target: ScriptTarget.ES2022,
 };
 
 export async function main(): Promise<void> {
@@ -87,28 +99,28 @@ export function transpileAll(ctx: CodeGeneratorContext): void {
 
     const tsFilePaths = ctx.files.map((f) => f.tsPath);
 
-    const program = ts.createProgram(tsFilePaths, COMPILE_OPTIONS);
+    const program = createProgram(tsFilePaths, COMPILE_OPTIONS);
 
     const emitResult = program.emit();
 
     if (
         emitResult.diagnostics.every(
             (d) =>
-                d.category !== ts.DiagnosticCategory.Error ||
+                d.category !== DiagnosticCategory.Error ||
                 // "Cannot find module" errors are typically only temporary and will reappear quickly if it's an actual problem.
-                ts.flattenDiagnosticMessageText(d.messageText, '\n').includes('Cannot find module'),
+                flattenDiagnosticMessageText(d.messageText, '\n').includes('Cannot find module'),
         )
     ) {
         trace('emit succeeded');
 
-        tsFilePaths.forEach(fs.unlinkSync);
+        tsFilePaths.forEach(unlinkSync);
     } else {
         trace('emit failed');
 
-        const allDiagnostics = ts.getPreEmitDiagnostics(program).concat(emitResult.diagnostics);
+        const allDiagnostics = getPreEmitDiagnostics(program).concat(emitResult.diagnostics);
 
         allDiagnostics.forEach((diagnostic) => {
-            const message = ts.flattenDiagnosticMessageText(diagnostic.messageText, '\n');
+            const message = flattenDiagnosticMessageText(diagnostic.messageText, '\n');
 
             if (diagnostic.file && diagnostic.start) {
                 const { line, character } = diagnostic.file.getLineAndCharacterOfPosition(diagnostic.start);

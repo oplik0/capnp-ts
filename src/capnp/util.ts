@@ -4,7 +4,7 @@
 
 // LINT: a lot of the util functions need the any type.
 /* tslint:disable:no-any no-unsafe-any */
-import { initTrace } from '../deps.ts';
+import initTrace from 'debug';
 
 import { MAX_BUFFER_DUMP_BYTES, MAX_INT32, MAX_UINT32 } from './constants.ts';
 import { RANGE_INT32_OVERFLOW, RANGE_INVALID_UTF8, RANGE_UINT32_OVERFLOW } from './errors.ts';

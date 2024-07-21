@@ -1,4 +1,4 @@
-import { initTrace } from '../deps.ts';
+import initTrace from 'debug';
 import * as s from '../capnp/std/schema.capnp.ts';
 import { format } from '../capnp/util.ts';
 import { CodeGeneratorFileContext } from './code-generator-file-context.ts';

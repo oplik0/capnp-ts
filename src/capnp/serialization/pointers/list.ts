@@ -2,7 +2,7 @@
  * @author jdiaz5513
  */
 
-import { initTrace } from '../../../deps.ts';
+import initTrace from 'debug';
 
 import { PTR_COMPOSITE_SIZE_UNDEFINED, PTR_INVALID_LIST_SIZE } from '../../errors.ts';
 import { format, identity } from '../../util.ts';

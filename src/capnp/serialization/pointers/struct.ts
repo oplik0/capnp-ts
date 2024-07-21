@@ -2,7 +2,7 @@
  * @author jdiaz5513
  */
 
-import { initTrace } from '../../../deps.ts';
+import initTrace from 'debug';
 
 import { MAX_DEPTH, NATIVE_LITTLE_ENDIAN } from '../../constants.ts';
 import { format, padToWord } from '../../util.ts';

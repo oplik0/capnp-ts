@@ -2,10 +2,9 @@
  * @author jdiaz5513
  */
 
-import { initTrace } from '../deps.ts';
+import initTrace from 'debug';
 import * as s from '../capnp/std/schema.capnp.ts';
-import { ts } from '../deps.ts';
-const { factory: f } = ts;
+import { factory as f, SyntaxKind } from 'typescript';
 
 const trace = initTrace('capnpc:constants');
 trace('load');
@@ -52,7 +51,7 @@ export const ConcreteListType = {
 
 /** export */
 
-export const EXPORT = f.createToken(ts.SyntaxKind.ExportKeyword);
+export const EXPORT = f.createToken(SyntaxKind.ExportKeyword);
 
 /** length */
 
@@ -151,7 +150,7 @@ export const OBJECT_SIZE = f.createIdentifier('__O');
 
 /** readonly */
 
-export const READONLY = f.createToken(ts.SyntaxKind.ReadonlyKeyword);
+export const READONLY = f.createToken(SyntaxKind.ReadonlyKeyword);
 
 /** No... comment? */
 
@@ -165,7 +164,7 @@ export const SOURCE_COMMENT = `/* tslint:disable */
 
 /** static */
 
-export const STATIC = f.createToken(ts.SyntaxKind.StaticKeyword);
+export const STATIC = f.createToken(SyntaxKind.StaticKeyword);
 
 /** string */
 
@@ -173,14 +172,14 @@ export const STRING_TYPE = f.createTypeReferenceNode('string', __);
 
 /** __S */
 // This is referenced so frequently it gets a shorthand!
-export const STRUCT = ts.factory.createIdentifier('__S');
+export const STRUCT = f.createIdentifier('__S');
 
 /** this */
 
 export const THIS = f.createThis();
 
 /**
- * Used to look up the ts.capnp file by its ID.
+ * Used to look up the capnp file by its ID.
  *
  * NOTE: The file ID should never change.
  */

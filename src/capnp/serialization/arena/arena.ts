@@ -2,7 +2,7 @@
  * @author jdiaz5513
  */
 
-import { initTrace } from '../../../deps.ts';
+import initTrace from 'debug';
 import { assertNever } from '../../errors.ts';
 import { Segment } from '../segment.ts';
 import { AnyArena } from './any-arena.ts';

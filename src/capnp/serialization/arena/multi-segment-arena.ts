@@ -2,7 +2,7 @@
  * @author jdiaz5513
  */
 
-import { initTrace } from '../../../deps.ts';
+import initTrace from 'debug';
 import { DEFAULT_BUFFER_SIZE } from '../../constants.ts';
 import { SEG_ID_OUT_OF_BOUNDS } from '../../errors.ts';
 import { format, padToWord } from '../../util.ts';

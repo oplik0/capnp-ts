@@ -2,7 +2,7 @@
  * @author jdiaz5513
  */
 
-import { initTrace } from '../../../deps.ts';
+import initTrace from 'debug';
 
 const trace = initTrace('capnp:serialization:arena:arena-allocation-result');
 trace('load');

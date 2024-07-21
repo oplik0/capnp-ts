@@ -4,7 +4,7 @@
  * @author jdiaz5513
  */
 
-import { initTrace } from '../deps.ts';
+import initTrace from 'debug';
 
 import { MAX_SEGMENT_LENGTH } from './constants.ts';
 
@@ -28,7 +28,7 @@ export function assertNever(n: never): never {
 // Now who told you it would be a good idea to fuzz the inputs? You just made the program sad.
 
 export const MSG_INVALID_FRAME_HEADER =
-    'CAPNP-TS001 Attempted to parse an invalid message frame header; are you sure this is a Cap\'n Proto message?';
+    "CAPNP-TS001 Attempted to parse an invalid message frame header; are you sure this is a Cap'n Proto message?";
 export const MSG_NO_SEGMENTS_IN_ARENA = 'CAPNP-TS002 Attempted to preallocate a message with no segments in the arena.';
 export const MSG_PACK_NOT_WORD_ALIGNED = 'CAPNP-TS003 Attempted to pack a message that was not word-aligned.';
 export const MSG_SEGMENT_OUT_OF_BOUNDS = 'CAPNP-TS004 Segment ID %X is out of bounds for message %s.';

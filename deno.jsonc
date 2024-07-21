@@ -28,5 +28,14 @@
       "tags": ["recommended"],
       "exclude": ["no-unused-vars", "no-this-alias"]
     }
+  },
+  "imports": {
+    "fs": "node:fs",
+    "path": "node:path",
+    "process": "node:process",
+    "buffer": "node:buffer",
+    "initTrace": "npm:debug@4.3.5",
+    "typescript": "npm:typescript@5.5.3",
+    "@std/assert": "jsr:@std/assert@1.0.0"
   }
 }
