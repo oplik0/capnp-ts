@@ -80,8 +80,8 @@ test('dumpBuffer()', (t) => {
 
     // Gratuitous? Yes. Awesome? Yes.
 
-    for (let i = 0; i < 11; i++) buf1[i + 1] = 'Cap\'n Proto'.charCodeAt(i);
-    for (let i = 0; i < 11; i++) buf1[i + 19] = 'Cap\'n Proto'.charCodeAt(i);
+    for (let i = 0; i < 11; i++) buf1[i + 1] = "Cap'n Proto".charCodeAt(i);
+    for (let i = 0; i < 11; i++) buf1[i + 19] = "Cap'n Proto".charCodeAt(i);
     buf1[0x10] = 0x11;
     buf1[0x11] = 0x05;
 

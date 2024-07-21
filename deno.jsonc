@@ -1,9 +1,20 @@
 {
+  "name": "@opliko/capnp-ts",
+  "version": "1.0.0-alpha.4",
+  "exports": {
+    ".": "./src/capnp/mod.ts",
+    "./constants": "./src/capnp/constants.ts",
+    "./util": "./src/capnp/util.ts",
+    "./capnpc": "./src/capnpc/mod.ts",
+    "./capnpc/util": "./src/capnpc/util.ts"
+  },
   "tasks": {
     "dev": "deno run --watch main.ts"
   },
   "test": {
-    "include": ["test/"]
+    "include": [
+      "test/"
+    ]
   },
   "compilerOptions": {
     "allowJs": false,
@@ -19,14 +30,25 @@
     "semiColons": true,
     "singleQuote": true,
     "proseWrap": "preserve",
-    "include": ["src/", "test/"],
+    "include": [
+      "src/",
+      "test/"
+    ],
     "exclude": []
   },
   "lint": {
-    "include": ["src/", "test/"],
+    "include": [
+      "src/",
+      "test/"
+    ],
     "rules": {
-      "tags": ["recommended"],
-      "exclude": ["no-unused-vars", "no-this-alias"]
+      "tags": [
+        "recommended"
+      ],
+      "exclude": [
+        "no-unused-vars",
+        "no-this-alias"
+      ]
     }
   },
   "imports": {

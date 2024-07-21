@@ -67,7 +67,11 @@ export interface _Struct extends _Pointer {
 }
 
 export class Struct extends Pointer {
-    static readonly _capnp = {
+    static readonly _capnp: {
+        displayName: string;
+        id?: string;
+        defaultDiscriminantValue?: DataView;
+    } = {
         displayName: 'Struct' as string,
     };
     static readonly getAs = getAs;

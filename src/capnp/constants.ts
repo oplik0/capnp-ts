@@ -79,7 +79,7 @@ export const MIN_SINGLE_SEGMENT_GROWTH = 4096;
  * these operations is _slightly_ faster.
  */
 
-export const NATIVE_LITTLE_ENDIAN = tmpWord.getUint8(0) === 0x02;
+export const NATIVE_LITTLE_ENDIAN: boolean = tmpWord.getUint8(0) === 0x02;
 
 /**
  * When packing a message, this is the number of zero bytes required after a SPAN (0xff) tag is written to the packed

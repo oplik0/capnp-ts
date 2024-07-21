@@ -5,7 +5,11 @@ import { Int32List } from '../../../../src/capnp/serialization/mod.ts';
 /** Just a silly struct that holds a single pointer to... itself? */
 
 class TestStruct extends Struct {
-    static readonly _capnp = {
+    static readonly _capnp: {
+        displayName: string;
+        id: string;
+        size: ObjectSize;
+    } = {
         displayName: 'TestStruct',
         id: 'f38ff832f33d57da',
         size: new ObjectSize(8, 2),

@@ -21,7 +21,7 @@ export class SingleSegmentArena {
     buffer: ArrayBuffer;
     readonly kind = ArenaKind.SINGLE_SEGMENT;
 
-    constructor(buffer = new ArrayBuffer(DEFAULT_BUFFER_SIZE)) {
+    constructor(buffer: ArrayBuffer = new ArrayBuffer(DEFAULT_BUFFER_SIZE)) {
         if ((buffer.byteLength & 7) !== 0) {
             throw new Error(format(SEG_NOT_WORD_ALIGNED, buffer.byteLength));
         }

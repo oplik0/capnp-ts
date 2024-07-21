@@ -7,7 +7,11 @@ import * as capnp from '../mod.ts';
 import { ObjectSize as __O, Struct as __S } from '../mod.ts';
 export const _capnpFileId = 'd9724c6209c53fa9';
 export class Node_Parameter extends __S {
-    static readonly _capnp = { displayName: 'Parameter', id: 'b9521bccf10fa3b1', size: new __O(0, 1) };
+    static readonly _capnp: {
+        displayName: string;
+        id: string;
+        size: capnp.ObjectSize;
+    } = { displayName: 'Parameter', id: 'b9521bccf10fa3b1', size: new __O(0, 1) };
     getName(): string {
         return __S.getText(0, this);
     }
@@ -19,7 +23,11 @@ export class Node_Parameter extends __S {
     }
 }
 export class Node_NestedNode extends __S {
-    static readonly _capnp = { displayName: 'NestedNode', id: 'debf55bbfa0fc242', size: new __O(8, 1) };
+    static readonly _capnp: {
+        displayName: string;
+        id: string;
+        size: capnp.ObjectSize;
+    } = { displayName: 'NestedNode', id: 'debf55bbfa0fc242', size: new __O(8, 1) };
     getName(): string {
         return __S.getText(0, this);
     }
@@ -37,7 +45,11 @@ export class Node_NestedNode extends __S {
     }
 }
 export class Node_Struct extends __S {
-    static readonly _capnp = { displayName: 'struct', id: '9ea0b19b37fb4435', size: new __O(40, 6) };
+    static readonly _capnp: {
+        displayName: string;
+        id: string;
+        size: capnp.ObjectSize;
+    } = { displayName: 'struct', id: '9ea0b19b37fb4435', size: new __O(40, 6) };
     static _Fields: capnp.ListCtor<Field>;
     getDataWordCount(): number {
         return __S.getUint16(14, this);
@@ -98,7 +110,11 @@ export class Node_Struct extends __S {
     }
 }
 export class Node_Enum extends __S {
-    static readonly _capnp = { displayName: 'enum', id: 'b54ab3364333f598', size: new __O(40, 6) };
+    static readonly _capnp: {
+        displayName: string;
+        id: string;
+        size: capnp.ObjectSize;
+    } = { displayName: 'enum', id: 'b54ab3364333f598', size: new __O(40, 6) };
     static _Enumerants: capnp.ListCtor<Enumerant>;
     adoptEnumerants(value: capnp.Orphan<capnp.List<Enumerant>>): void {
         __S.adopt(value, __S.getPointer(3, this));
@@ -123,7 +139,11 @@ export class Node_Enum extends __S {
     }
 }
 export class Node_Interface extends __S {
-    static readonly _capnp = { displayName: 'interface', id: 'e82753cff0c2218f', size: new __O(40, 6) };
+    static readonly _capnp: {
+        displayName: string;
+        id: string;
+        size: capnp.ObjectSize;
+    } = { displayName: 'interface', id: 'e82753cff0c2218f', size: new __O(40, 6) };
     static _Methods: capnp.ListCtor<Method>;
     static _Superclasses: capnp.ListCtor<Superclass>;
     adoptMethods(value: capnp.Orphan<capnp.List<Method>>): void {
@@ -167,7 +187,11 @@ export class Node_Interface extends __S {
     }
 }
 export class Node_Const extends __S {
-    static readonly _capnp = { displayName: 'const', id: 'b18aa5ac7a0d9420', size: new __O(40, 6) };
+    static readonly _capnp: {
+        displayName: string;
+        id: string;
+        size: capnp.ObjectSize;
+    } = { displayName: 'const', id: 'b18aa5ac7a0d9420', size: new __O(40, 6) };
     adoptType(value: capnp.Orphan<Type>): void {
         __S.adopt(value, __S.getPointer(3, this));
     }
@@ -209,7 +233,11 @@ export class Node_Const extends __S {
     }
 }
 export class Node_Annotation extends __S {
-    static readonly _capnp = { displayName: 'annotation', id: 'ec1619d4400a0290', size: new __O(40, 6) };
+    static readonly _capnp: {
+        displayName: string;
+        id: string;
+        size: capnp.ObjectSize;
+    } = { displayName: 'annotation', id: 'ec1619d4400a0290', size: new __O(40, 6) };
     adoptType(value: capnp.Orphan<Type>): void {
         __S.adopt(value, __S.getPointer(3, this));
     }
@@ -321,7 +349,11 @@ export class Node extends __S {
     static readonly ANNOTATION = Node_Which.ANNOTATION;
     static readonly Parameter = Node_Parameter;
     static readonly NestedNode = Node_NestedNode;
-    static readonly _capnp = { displayName: 'Node', id: 'e682ab4cf923a417', size: new __O(40, 6) };
+    static readonly _capnp: {
+        displayName: string;
+        id: string;
+        size: capnp.ObjectSize;
+    } = { displayName: 'Node', id: 'e682ab4cf923a417', size: new __O(40, 6) };
     static _Parameters: capnp.ListCtor<Node_Parameter>;
     static _NestedNodes: capnp.ListCtor<Node_NestedNode>;
     static _Annotations: capnp.ListCtor<Annotation>;
@@ -493,7 +525,11 @@ export class Node extends __S {
     }
 }
 export class Field_Slot extends __S {
-    static readonly _capnp = { displayName: 'slot', id: 'c42305476bb4746f', size: new __O(24, 4) };
+    static readonly _capnp: {
+        displayName: string;
+        id: string;
+        size: capnp.ObjectSize;
+    } = { displayName: 'slot', id: 'c42305476bb4746f', size: new __O(24, 4) };
     getOffset(): number {
         return __S.getUint32(4, this);
     }
@@ -547,7 +583,11 @@ export class Field_Slot extends __S {
     }
 }
 export class Field_Group extends __S {
-    static readonly _capnp = { displayName: 'group', id: 'cafccddb68db1d11', size: new __O(24, 4) };
+    static readonly _capnp: {
+        displayName: string;
+        id: string;
+        size: capnp.ObjectSize;
+    } = { displayName: 'group', id: 'cafccddb68db1d11', size: new __O(24, 4) };
     getTypeId(): bigint {
         return __S.getUint64(16, this);
     }
@@ -565,7 +605,11 @@ export enum Field_Ordinal_Which {
 export class Field_Ordinal extends __S {
     static readonly IMPLICIT = Field_Ordinal_Which.IMPLICIT;
     static readonly EXPLICIT = Field_Ordinal_Which.EXPLICIT;
-    static readonly _capnp = { displayName: 'ordinal', id: 'bb90d5c287870be6', size: new __O(24, 4) };
+    static readonly _capnp: {
+        displayName: string;
+        id: string;
+        size: capnp.ObjectSize;
+    } = { displayName: 'ordinal', id: 'bb90d5c287870be6', size: new __O(24, 4) };
     isImplicit(): boolean {
         return __S.getUint16(10, this) === 0;
     }
@@ -598,7 +642,12 @@ export class Field extends __S {
     static readonly NO_DISCRIMINANT = 65535;
     static readonly SLOT = Field_Which.SLOT;
     static readonly GROUP = Field_Which.GROUP;
-    static readonly _capnp = {
+    static readonly _capnp: {
+        displayName: string;
+        id: string;
+        size: capnp.ObjectSize;
+        defaultDiscriminantValue: DataView;
+    } = {
         displayName: 'Field',
         id: '9aad50a41f4af45f',
         size: new __O(24, 4),
@@ -683,7 +732,11 @@ export class Field extends __S {
     }
 }
 export class Enumerant extends __S {
-    static readonly _capnp = { displayName: 'Enumerant', id: '978a7cebdc549a4d', size: new __O(8, 2) };
+    static readonly _capnp: {
+        displayName: string;
+        id: string;
+        size: capnp.ObjectSize;
+    } = { displayName: 'Enumerant', id: '978a7cebdc549a4d', size: new __O(8, 2) };
     static _Annotations: capnp.ListCtor<Annotation>;
     getName(): string {
         return __S.getText(0, this);
@@ -720,7 +773,11 @@ export class Enumerant extends __S {
     }
 }
 export class Superclass extends __S {
-    static readonly _capnp = { displayName: 'Superclass', id: 'a9962a9ed0a4d7f8', size: new __O(8, 1) };
+    static readonly _capnp: {
+        displayName: string;
+        id: string;
+        size: capnp.ObjectSize;
+    } = { displayName: 'Superclass', id: 'a9962a9ed0a4d7f8', size: new __O(8, 1) };
     getId(): bigint {
         return __S.getUint64(0, this);
     }
@@ -750,7 +807,11 @@ export class Superclass extends __S {
     }
 }
 export class Method extends __S {
-    static readonly _capnp = { displayName: 'Method', id: '9500cce23b334d80', size: new __O(24, 5) };
+    static readonly _capnp: {
+        displayName: string;
+        id: string;
+        size: capnp.ObjectSize;
+    } = { displayName: 'Method', id: '9500cce23b334d80', size: new __O(24, 5) };
     static _ImplicitParameters: capnp.ListCtor<Node_Parameter>;
     static _Annotations: capnp.ListCtor<Annotation>;
     getName(): string {
@@ -854,7 +915,11 @@ export class Method extends __S {
     }
 }
 export class Type_List extends __S {
-    static readonly _capnp = { displayName: 'list', id: '87e739250a60ea97', size: new __O(24, 1) };
+    static readonly _capnp: {
+        displayName: string;
+        id: string;
+        size: capnp.ObjectSize;
+    } = { displayName: 'list', id: '87e739250a60ea97', size: new __O(24, 1) };
     adoptElementType(value: capnp.Orphan<Type>): void {
         __S.adopt(value, __S.getPointer(0, this));
     }
@@ -878,7 +943,11 @@ export class Type_List extends __S {
     }
 }
 export class Type_Enum extends __S {
-    static readonly _capnp = { displayName: 'enum', id: '9e0e78711a7f87a9', size: new __O(24, 1) };
+    static readonly _capnp: {
+        displayName: string;
+        id: string;
+        size: capnp.ObjectSize;
+    } = { displayName: 'enum', id: '9e0e78711a7f87a9', size: new __O(24, 1) };
     getTypeId(): bigint {
         return __S.getUint64(8, this);
     }
@@ -908,7 +977,11 @@ export class Type_Enum extends __S {
     }
 }
 export class Type_Struct extends __S {
-    static readonly _capnp = { displayName: 'struct', id: 'ac3a6f60ef4cc6d3', size: new __O(24, 1) };
+    static readonly _capnp: {
+        displayName: string;
+        id: string;
+        size: capnp.ObjectSize;
+    } = { displayName: 'struct', id: 'ac3a6f60ef4cc6d3', size: new __O(24, 1) };
     getTypeId(): bigint {
         return __S.getUint64(8, this);
     }
@@ -938,7 +1011,11 @@ export class Type_Struct extends __S {
     }
 }
 export class Type_Interface extends __S {
-    static readonly _capnp = { displayName: 'interface', id: 'ed8bca69f7fb0cbf', size: new __O(24, 1) };
+    static readonly _capnp: {
+        displayName: string;
+        id: string;
+        size: capnp.ObjectSize;
+    } = { displayName: 'interface', id: 'ed8bca69f7fb0cbf', size: new __O(24, 1) };
     getTypeId(): bigint {
         return __S.getUint64(8, this);
     }
@@ -978,7 +1055,11 @@ export class Type_AnyPointer_Unconstrained extends __S {
     static readonly STRUCT = Type_AnyPointer_Unconstrained_Which.STRUCT;
     static readonly LIST = Type_AnyPointer_Unconstrained_Which.LIST;
     static readonly CAPABILITY = Type_AnyPointer_Unconstrained_Which.CAPABILITY;
-    static readonly _capnp = { displayName: 'unconstrained', id: '8e3b5f79fe593656', size: new __O(24, 1) };
+    static readonly _capnp: {
+        displayName: string;
+        id: string;
+        size: capnp.ObjectSize;
+    } = { displayName: 'unconstrained', id: '8e3b5f79fe593656', size: new __O(24, 1) };
     isAnyKind(): boolean {
         return __S.getUint16(10, this) === 0;
     }
@@ -1011,7 +1092,11 @@ export class Type_AnyPointer_Unconstrained extends __S {
     }
 }
 export class Type_AnyPointer_Parameter extends __S {
-    static readonly _capnp = { displayName: 'parameter', id: '9dd1f724f4614a85', size: new __O(24, 1) };
+    static readonly _capnp: {
+        displayName: string;
+        id: string;
+        size: capnp.ObjectSize;
+    } = { displayName: 'parameter', id: '9dd1f724f4614a85', size: new __O(24, 1) };
     getScopeId(): bigint {
         return __S.getUint64(16, this);
     }
@@ -1029,7 +1114,11 @@ export class Type_AnyPointer_Parameter extends __S {
     }
 }
 export class Type_AnyPointer_ImplicitMethodParameter extends __S {
-    static readonly _capnp = { displayName: 'implicitMethodParameter', id: 'baefc9120c56e274', size: new __O(24, 1) };
+    static readonly _capnp: {
+        displayName: string;
+        id: string;
+        size: capnp.ObjectSize;
+    } = { displayName: 'implicitMethodParameter', id: 'baefc9120c56e274', size: new __O(24, 1) };
     getParameterIndex(): number {
         return __S.getUint16(10, this);
     }
@@ -1049,7 +1138,11 @@ export class Type_AnyPointer extends __S {
     static readonly UNCONSTRAINED = Type_AnyPointer_Which.UNCONSTRAINED;
     static readonly PARAMETER = Type_AnyPointer_Which.PARAMETER;
     static readonly IMPLICIT_METHOD_PARAMETER = Type_AnyPointer_Which.IMPLICIT_METHOD_PARAMETER;
-    static readonly _capnp = { displayName: 'anyPointer', id: 'c2573fe8a23e49f1', size: new __O(24, 1) };
+    static readonly _capnp: {
+        displayName: string;
+        id: string;
+        size: capnp.ObjectSize;
+    } = { displayName: 'anyPointer', id: 'c2573fe8a23e49f1', size: new __O(24, 1) };
     getUnconstrained(): Type_AnyPointer_Unconstrained {
         __S.testWhich('unconstrained', __S.getUint16(8, this), 0, this);
         return __S.getAs(Type_AnyPointer_Unconstrained, this);
@@ -1140,7 +1233,11 @@ export class Type extends __S {
     static readonly STRUCT = Type_Which.STRUCT;
     static readonly INTERFACE = Type_Which.INTERFACE;
     static readonly ANY_POINTER = Type_Which.ANY_POINTER;
-    static readonly _capnp = { displayName: 'Type', id: 'd07378ede1f9cc60', size: new __O(24, 1) };
+    static readonly _capnp: {
+        displayName: string;
+        id: string;
+        size: capnp.ObjectSize;
+    } = { displayName: 'Type', id: 'd07378ede1f9cc60', size: new __O(24, 1) };
     isVoid(): boolean {
         return __S.getUint16(0, this) === 0;
     }
@@ -1309,7 +1406,11 @@ export enum Brand_Scope_Which {
 export class Brand_Scope extends __S {
     static readonly BIND = Brand_Scope_Which.BIND;
     static readonly INHERIT = Brand_Scope_Which.INHERIT;
-    static readonly _capnp = { displayName: 'Scope', id: 'abd73485a9636bc9', size: new __O(16, 1) };
+    static readonly _capnp: {
+        displayName: string;
+        id: string;
+        size: capnp.ObjectSize;
+    } = { displayName: 'Scope', id: 'abd73485a9636bc9', size: new __O(16, 1) };
     static _Bind: capnp.ListCtor<Brand_Binding>;
     getScopeId(): bigint {
         return __S.getUint64(0, this);
@@ -1362,7 +1463,11 @@ export enum Brand_Binding_Which {
 export class Brand_Binding extends __S {
     static readonly UNBOUND = Brand_Binding_Which.UNBOUND;
     static readonly TYPE = Brand_Binding_Which.TYPE;
-    static readonly _capnp = { displayName: 'Binding', id: 'c863cd16969ee7fc', size: new __O(8, 1) };
+    static readonly _capnp: {
+        displayName: string;
+        id: string;
+        size: capnp.ObjectSize;
+    } = { displayName: 'Binding', id: 'c863cd16969ee7fc', size: new __O(8, 1) };
     isUnbound(): boolean {
         return __S.getUint16(0, this) === 0;
     }
@@ -1404,7 +1509,11 @@ export class Brand_Binding extends __S {
 export class Brand extends __S {
     static readonly Scope = Brand_Scope;
     static readonly Binding = Brand_Binding;
-    static readonly _capnp = { displayName: 'Brand', id: '903455f06065422b', size: new __O(0, 1) };
+    static readonly _capnp: {
+        displayName: string;
+        id: string;
+        size: capnp.ObjectSize;
+    } = { displayName: 'Brand', id: '903455f06065422b', size: new __O(0, 1) };
     static _Scopes: capnp.ListCtor<Brand_Scope>;
     adoptScopes(value: capnp.Orphan<capnp.List<Brand_Scope>>): void {
         __S.adopt(value, __S.getPointer(0, this));
@@ -1469,7 +1578,11 @@ export class Value extends __S {
     static readonly STRUCT = Value_Which.STRUCT;
     static readonly INTERFACE = Value_Which.INTERFACE;
     static readonly ANY_POINTER = Value_Which.ANY_POINTER;
-    static readonly _capnp = { displayName: 'Value', id: 'ce23dcd2d7b00c9b', size: new __O(16, 1) };
+    static readonly _capnp: {
+        displayName: string;
+        id: string;
+        size: capnp.ObjectSize;
+    } = { displayName: 'Value', id: 'ce23dcd2d7b00c9b', size: new __O(16, 1) };
     isVoid(): boolean {
         return __S.getUint16(0, this) === 0;
     }
@@ -1721,7 +1834,11 @@ export class Value extends __S {
     }
 }
 export class Annotation extends __S {
-    static readonly _capnp = { displayName: 'Annotation', id: 'f1c8950dab257542', size: new __O(8, 2) };
+    static readonly _capnp: {
+        displayName: string;
+        id: string;
+        size: capnp.ObjectSize;
+    } = { displayName: 'Annotation', id: 'f1c8950dab257542', size: new __O(8, 2) };
     getId(): bigint {
         return __S.getUint64(0, this);
     }
@@ -1779,7 +1896,11 @@ export enum ElementSize {
     INLINE_COMPOSITE,
 }
 export class CapnpVersion extends __S {
-    static readonly _capnp = { displayName: 'CapnpVersion', id: 'd85d305b7d839963', size: new __O(8, 0) };
+    static readonly _capnp: {
+        displayName: string;
+        id: string;
+        size: capnp.ObjectSize;
+    } = { displayName: 'CapnpVersion', id: 'd85d305b7d839963', size: new __O(8, 0) };
     getMajor(): number {
         return __S.getUint16(0, this);
     }
@@ -1803,7 +1924,11 @@ export class CapnpVersion extends __S {
     }
 }
 export class CodeGeneratorRequest_RequestedFile_Import extends __S {
-    static readonly _capnp = { displayName: 'Import', id: 'ae504193122357e5', size: new __O(8, 1) };
+    static readonly _capnp: {
+        displayName: string;
+        id: string;
+        size: capnp.ObjectSize;
+    } = { displayName: 'Import', id: 'ae504193122357e5', size: new __O(8, 1) };
     getId(): bigint {
         return __S.getUint64(0, this);
     }
@@ -1822,7 +1947,11 @@ export class CodeGeneratorRequest_RequestedFile_Import extends __S {
 }
 export class CodeGeneratorRequest_RequestedFile extends __S {
     static readonly Import = CodeGeneratorRequest_RequestedFile_Import;
-    static readonly _capnp = { displayName: 'RequestedFile', id: 'cfea0eb02e810062', size: new __O(8, 2) };
+    static readonly _capnp: {
+        displayName: string;
+        id: string;
+        size: capnp.ObjectSize;
+    } = { displayName: 'RequestedFile', id: 'cfea0eb02e810062', size: new __O(8, 2) };
     static _Imports: capnp.ListCtor<CodeGeneratorRequest_RequestedFile_Import>;
     getId(): bigint {
         return __S.getUint64(0, this);
@@ -1860,7 +1989,11 @@ export class CodeGeneratorRequest_RequestedFile extends __S {
 }
 export class CodeGeneratorRequest extends __S {
     static readonly RequestedFile = CodeGeneratorRequest_RequestedFile;
-    static readonly _capnp = { displayName: 'CodeGeneratorRequest', id: 'bfc546f6210ad7ce', size: new __O(0, 3) };
+    static readonly _capnp: {
+        displayName: string;
+        id: string;
+        size: capnp.ObjectSize;
+    } = { displayName: 'CodeGeneratorRequest', id: 'bfc546f6210ad7ce', size: new __O(0, 3) };
     static _Nodes: capnp.ListCtor<Node>;
     static _RequestedFiles: capnp.ListCtor<CodeGeneratorRequest_RequestedFile>;
     adoptCapnpVersion(value: capnp.Orphan<CapnpVersion>): void {

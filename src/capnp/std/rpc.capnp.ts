@@ -37,7 +37,11 @@ export class Message extends __S {
     static readonly PROVIDE = Message_Which.PROVIDE;
     static readonly ACCEPT = Message_Which.ACCEPT;
     static readonly JOIN = Message_Which.JOIN;
-    static readonly _capnp = { displayName: 'Message', id: '91b79f1f808db032', size: new __O(8, 1) };
+    static readonly _capnp: {
+        displayName: string;
+        id: string;
+        size: capnp.ObjectSize;
+    } = { displayName: 'Message', id: '91b79f1f808db032', size: new __O(8, 1) };
     adoptUnimplemented(value: capnp.Orphan<Message>): void {
         __S.setUint16(0, 0, this);
         __S.adopt(value, __S.getPointer(0, this));
@@ -388,7 +392,11 @@ export class Message extends __S {
     }
 }
 export class Bootstrap extends __S {
-    static readonly _capnp = { displayName: 'Bootstrap', id: 'e94ccf8031176ec4', size: new __O(8, 1) };
+    static readonly _capnp: {
+        displayName: string;
+        id: string;
+        size: capnp.ObjectSize;
+    } = { displayName: 'Bootstrap', id: 'e94ccf8031176ec4', size: new __O(8, 1) };
     getQuestionId(): number {
         return __S.getUint32(0, this);
     }
@@ -423,7 +431,11 @@ export class Call_SendResultsTo extends __S {
     static readonly CALLER = Call_SendResultsTo_Which.CALLER;
     static readonly YOURSELF = Call_SendResultsTo_Which.YOURSELF;
     static readonly THIRD_PARTY = Call_SendResultsTo_Which.THIRD_PARTY;
-    static readonly _capnp = { displayName: 'sendResultsTo', id: 'dae8b0f61aab5f99', size: new __O(24, 3) };
+    static readonly _capnp: {
+        displayName: string;
+        id: string;
+        size: capnp.ObjectSize;
+    } = { displayName: 'sendResultsTo', id: 'dae8b0f61aab5f99', size: new __O(24, 3) };
     isCaller(): boolean {
         return __S.getUint16(6, this) === 0;
     }
@@ -465,7 +477,12 @@ export class Call_SendResultsTo extends __S {
     }
 }
 export class Call extends __S {
-    static readonly _capnp = {
+    static readonly _capnp: {
+        displayName: string;
+        id: string;
+        size: capnp.ObjectSize;
+        defaultDiscriminantValue: DataView;
+    } = {
         displayName: 'Call',
         id: '836a53ce789d4cd4',
         size: new __O(24, 3),
@@ -556,7 +573,12 @@ export class Return extends __S {
     static readonly RESULTS_SENT_ELSEWHERE = Return_Which.RESULTS_SENT_ELSEWHERE;
     static readonly TAKE_FROM_OTHER_QUESTION = Return_Which.TAKE_FROM_OTHER_QUESTION;
     static readonly ACCEPT_FROM_THIRD_PARTY = Return_Which.ACCEPT_FROM_THIRD_PARTY;
-    static readonly _capnp = {
+    static readonly _capnp: {
+        displayName: string;
+        id: string;
+        size: capnp.ObjectSize;
+        defaultReleaseParamCaps: DataView;
+    } = {
         displayName: 'Return',
         id: '9e19b28d3db3573a',
         size: new __O(16, 1),
@@ -676,7 +698,12 @@ export class Return extends __S {
     }
 }
 export class Finish extends __S {
-    static readonly _capnp = {
+    static readonly _capnp: {
+        displayName: string;
+        id: string;
+        size: capnp.ObjectSize;
+        defaultReleaseResultCaps: DataView;
+    } = {
         displayName: 'Finish',
         id: 'd37d2eb2c2f80e63',
         size: new __O(8, 0),
@@ -705,7 +732,11 @@ export enum Resolve_Which {
 export class Resolve extends __S {
     static readonly CAP = Resolve_Which.CAP;
     static readonly EXCEPTION = Resolve_Which.EXCEPTION;
-    static readonly _capnp = { displayName: 'Resolve', id: 'bbc29655fa89086e', size: new __O(8, 1) };
+    static readonly _capnp: {
+        displayName: string;
+        id: string;
+        size: capnp.ObjectSize;
+    } = { displayName: 'Resolve', id: 'bbc29655fa89086e', size: new __O(8, 1) };
     getPromiseId(): number {
         return __S.getUint32(0, this);
     }
@@ -770,7 +801,11 @@ export class Resolve extends __S {
     }
 }
 export class Release extends __S {
-    static readonly _capnp = { displayName: 'Release', id: 'ad1a6c0d7dd07497', size: new __O(8, 0) };
+    static readonly _capnp: {
+        displayName: string;
+        id: string;
+        size: capnp.ObjectSize;
+    } = { displayName: 'Release', id: 'ad1a6c0d7dd07497', size: new __O(8, 0) };
     getId(): number {
         return __S.getUint32(0, this);
     }
@@ -798,7 +833,11 @@ export class Disembargo_Context extends __S {
     static readonly RECEIVER_LOOPBACK = Disembargo_Context_Which.RECEIVER_LOOPBACK;
     static readonly ACCEPT = Disembargo_Context_Which.ACCEPT;
     static readonly PROVIDE = Disembargo_Context_Which.PROVIDE;
-    static readonly _capnp = { displayName: 'context', id: 'd562b4df655bdd4d', size: new __O(8, 1) };
+    static readonly _capnp: {
+        displayName: string;
+        id: string;
+        size: capnp.ObjectSize;
+    } = { displayName: 'context', id: 'd562b4df655bdd4d', size: new __O(8, 1) };
     getSenderLoopback(): number {
         __S.testWhich('senderLoopback', __S.getUint16(4, this), 0, this);
         return __S.getUint32(0, this);
@@ -846,7 +885,11 @@ export class Disembargo_Context extends __S {
     }
 }
 export class Disembargo extends __S {
-    static readonly _capnp = { displayName: 'Disembargo', id: 'f964368b0fbd3711', size: new __O(8, 1) };
+    static readonly _capnp: {
+        displayName: string;
+        id: string;
+        size: capnp.ObjectSize;
+    } = { displayName: 'Disembargo', id: 'f964368b0fbd3711', size: new __O(8, 1) };
     adoptTarget(value: capnp.Orphan<MessageTarget>): void {
         __S.adopt(value, __S.getPointer(0, this));
     }
@@ -876,7 +919,11 @@ export class Disembargo extends __S {
     }
 }
 export class Provide extends __S {
-    static readonly _capnp = { displayName: 'Provide', id: '9c6a046bfbc1ac5a', size: new __O(8, 2) };
+    static readonly _capnp: {
+        displayName: string;
+        id: string;
+        size: capnp.ObjectSize;
+    } = { displayName: 'Provide', id: '9c6a046bfbc1ac5a', size: new __O(8, 2) };
     getQuestionId(): number {
         return __S.getUint32(0, this);
     }
@@ -921,7 +968,11 @@ export class Provide extends __S {
     }
 }
 export class Accept extends __S {
-    static readonly _capnp = { displayName: 'Accept', id: 'd4c9b56290554016', size: new __O(8, 1) };
+    static readonly _capnp: {
+        displayName: string;
+        id: string;
+        size: capnp.ObjectSize;
+    } = { displayName: 'Accept', id: 'd4c9b56290554016', size: new __O(8, 1) };
     getQuestionId(): number {
         return __S.getUint32(0, this);
     }
@@ -954,7 +1005,11 @@ export class Accept extends __S {
     }
 }
 export class Join extends __S {
-    static readonly _capnp = { displayName: 'Join', id: 'fbe1980490e001af', size: new __O(8, 2) };
+    static readonly _capnp: {
+        displayName: string;
+        id: string;
+        size: capnp.ObjectSize;
+    } = { displayName: 'Join', id: 'fbe1980490e001af', size: new __O(8, 2) };
     getQuestionId(): number {
         return __S.getUint32(0, this);
     }
@@ -1005,7 +1060,11 @@ export enum MessageTarget_Which {
 export class MessageTarget extends __S {
     static readonly IMPORTED_CAP = MessageTarget_Which.IMPORTED_CAP;
     static readonly PROMISED_ANSWER = MessageTarget_Which.PROMISED_ANSWER;
-    static readonly _capnp = { displayName: 'MessageTarget', id: '95bc14545813fbc1', size: new __O(8, 1) };
+    static readonly _capnp: {
+        displayName: string;
+        id: string;
+        size: capnp.ObjectSize;
+    } = { displayName: 'MessageTarget', id: '95bc14545813fbc1', size: new __O(8, 1) };
     getImportedCap(): number {
         __S.testWhich('importedCap', __S.getUint16(4, this), 0, this);
         return __S.getUint32(0, this);
@@ -1050,7 +1109,11 @@ export class MessageTarget extends __S {
     }
 }
 export class Payload extends __S {
-    static readonly _capnp = { displayName: 'Payload', id: '9a0e61223d96743b', size: new __O(0, 2) };
+    static readonly _capnp: {
+        displayName: string;
+        id: string;
+        size: capnp.ObjectSize;
+    } = { displayName: 'Payload', id: '9a0e61223d96743b', size: new __O(0, 2) };
     static _CapTable: capnp.ListCtor<CapDescriptor>;
     adoptContent(value: capnp.Orphan<capnp.Pointer>): void {
         __S.adopt(value, __S.getPointer(0, this));
@@ -1104,7 +1167,11 @@ export class CapDescriptor extends __S {
     static readonly RECEIVER_HOSTED = CapDescriptor_Which.RECEIVER_HOSTED;
     static readonly RECEIVER_ANSWER = CapDescriptor_Which.RECEIVER_ANSWER;
     static readonly THIRD_PARTY_HOSTED = CapDescriptor_Which.THIRD_PARTY_HOSTED;
-    static readonly _capnp = { displayName: 'CapDescriptor', id: '8523ddc40b86b8b0', size: new __O(8, 1) };
+    static readonly _capnp: {
+        displayName: string;
+        id: string;
+        size: capnp.ObjectSize;
+    } = { displayName: 'CapDescriptor', id: '8523ddc40b86b8b0', size: new __O(8, 1) };
     isNone(): boolean {
         return __S.getUint16(0, this) === 0;
     }
@@ -1208,7 +1275,11 @@ export enum PromisedAnswer_Op_Which {
 export class PromisedAnswer_Op extends __S {
     static readonly NOOP = PromisedAnswer_Op_Which.NOOP;
     static readonly GET_POINTER_FIELD = PromisedAnswer_Op_Which.GET_POINTER_FIELD;
-    static readonly _capnp = { displayName: 'Op', id: 'f316944415569081', size: new __O(8, 0) };
+    static readonly _capnp: {
+        displayName: string;
+        id: string;
+        size: capnp.ObjectSize;
+    } = { displayName: 'Op', id: 'f316944415569081', size: new __O(8, 0) };
     isNoop(): boolean {
         return __S.getUint16(0, this) === 0;
     }
@@ -1235,7 +1306,11 @@ export class PromisedAnswer_Op extends __S {
 }
 export class PromisedAnswer extends __S {
     static readonly Op = PromisedAnswer_Op;
-    static readonly _capnp = { displayName: 'PromisedAnswer', id: 'd800b1d6cd6f1ca0', size: new __O(8, 1) };
+    static readonly _capnp: {
+        displayName: string;
+        id: string;
+        size: capnp.ObjectSize;
+    } = { displayName: 'PromisedAnswer', id: 'd800b1d6cd6f1ca0', size: new __O(8, 1) };
     static _Transform: capnp.ListCtor<PromisedAnswer_Op>;
     getQuestionId(): number {
         return __S.getUint32(0, this);
@@ -1266,7 +1341,11 @@ export class PromisedAnswer extends __S {
     }
 }
 export class ThirdPartyCapDescriptor extends __S {
-    static readonly _capnp = { displayName: 'ThirdPartyCapDescriptor', id: 'd37007fde1f0027d', size: new __O(8, 1) };
+    static readonly _capnp: {
+        displayName: string;
+        id: string;
+        size: capnp.ObjectSize;
+    } = { displayName: 'ThirdPartyCapDescriptor', id: 'd37007fde1f0027d', size: new __O(8, 1) };
     adoptId(value: capnp.Orphan<capnp.Pointer>): void {
         __S.adopt(value, __S.getPointer(0, this));
     }
@@ -1300,7 +1379,11 @@ export enum Exception_Type {
 }
 export class Exception extends __S {
     static readonly Type = Exception_Type;
-    static readonly _capnp = { displayName: 'Exception', id: 'd625b7063acf691a', size: new __O(8, 1) };
+    static readonly _capnp: {
+        displayName: string;
+        id: string;
+        size: capnp.ObjectSize;
+    } = { displayName: 'Exception', id: 'd625b7063acf691a', size: new __O(8, 1) };
     getReason(): string {
         return __S.getText(0, this);
     }

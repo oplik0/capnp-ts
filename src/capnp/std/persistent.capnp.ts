@@ -7,7 +7,11 @@ import * as capnp from '../index';
 import { ObjectSize as __O, Struct as __S } from '../index';
 export const _capnpFileId = 'b8630836983feed7';
 export class Persistent_SaveParams extends __S {
-    static readonly _capnp = { displayName: 'SaveParams', id: 'f76fba59183073a5', size: new __O(0, 1) };
+    static readonly _capnp: {
+        displayName: string;
+        id: string;
+        size: capnp.ObjectSize;
+    } = { displayName: 'SaveParams', id: 'f76fba59183073a5', size: new __O(0, 1) };
     adoptSealFor(value: capnp.Orphan<capnp.Pointer>): void {
         __S.adopt(value, __S.getPointer(0, this));
     }
@@ -28,7 +32,11 @@ export class Persistent_SaveParams extends __S {
     }
 }
 export class Persistent_SaveResults extends __S {
-    static readonly _capnp = { displayName: 'SaveResults', id: 'b76848c18c40efbf', size: new __O(0, 1) };
+    static readonly _capnp: {
+        displayName: string;
+        id: string;
+        size: capnp.ObjectSize;
+    } = { displayName: 'SaveResults', id: 'b76848c18c40efbf', size: new __O(0, 1) };
     adoptSturdyRef(value: capnp.Orphan<capnp.Pointer>): void {
         __S.adopt(value, __S.getPointer(0, this));
     }
@@ -51,13 +59,21 @@ export class Persistent_SaveResults extends __S {
 export class Persistent extends __S {
     static readonly SaveParams = Persistent_SaveParams;
     static readonly SaveResults = Persistent_SaveResults;
-    static readonly _capnp = { displayName: 'Persistent', id: 'c8cb212fcd9f5691', size: new __O(0, 0) };
+    static readonly _capnp: {
+        displayName: string;
+        id: string;
+        size: capnp.ObjectSize;
+    } = { displayName: 'Persistent', id: 'c8cb212fcd9f5691', size: new __O(0, 0) };
     toString(): string {
         return 'Persistent_' + super.toString();
     }
 }
 export class RealmGateway extends __S {
-    static readonly _capnp = { displayName: 'RealmGateway', id: '84ff286cd00a3ed4', size: new __O(0, 0) };
+    static readonly _capnp: {
+        displayName: string;
+        id: string;
+        size: capnp.ObjectSize;
+    } = { displayName: 'RealmGateway', id: '84ff286cd00a3ed4', size: new __O(0, 0) };
     toString(): string {
         return 'RealmGateway_' + super.toString();
     }

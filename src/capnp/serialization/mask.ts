@@ -5,8 +5,9 @@
 import { INVARIANT_UNREACHABLE_CODE } from '../errors.ts';
 
 type DataViewSetter<T> = (byteOffset: number, value: T, littleEndian?: boolean) => void;
+type PrimitiveMask<T> = (x: T) => DataView;
 
-function _makePrimitiveMaskFn<T>(byteLength: number, setter: DataViewSetter<T>): (x: T) => DataView {
+function _makePrimitiveMaskFn<T>(byteLength: number, setter: DataViewSetter<T>): PrimitiveMask<T> {
     return (x: T): DataView => {
         const dv = new DataView(new ArrayBuffer(byteLength));
         setter.call(dv, 0, x, true);
@@ -15,16 +16,16 @@ function _makePrimitiveMaskFn<T>(byteLength: number, setter: DataViewSetter<T>):
 }
 
 /* eslint-disable @typescript-eslint/unbound-method */
-export const getFloat32Mask = _makePrimitiveMaskFn(4, DataView.prototype.setFloat32);
-export const getFloat64Mask = _makePrimitiveMaskFn(8, DataView.prototype.setFloat64);
-export const getInt16Mask = _makePrimitiveMaskFn(2, DataView.prototype.setInt16);
-export const getInt32Mask = _makePrimitiveMaskFn(4, DataView.prototype.setInt32);
-export const getInt64Mask = _makePrimitiveMaskFn(8, DataView.prototype.setBigInt64);
-export const getInt8Mask = _makePrimitiveMaskFn(1, DataView.prototype.setInt8);
-export const getUint16Mask = _makePrimitiveMaskFn(2, DataView.prototype.setUint16);
-export const getUint32Mask = _makePrimitiveMaskFn(4, DataView.prototype.setUint32);
-export const getUint64Mask = _makePrimitiveMaskFn(8, DataView.prototype.setBigUint64);
-export const getUint8Mask = _makePrimitiveMaskFn(1, DataView.prototype.setUint8);
+export const getFloat32Mask: PrimitiveMask<number> = _makePrimitiveMaskFn(4, DataView.prototype.setFloat32);
+export const getFloat64Mask: PrimitiveMask<number> = _makePrimitiveMaskFn(8, DataView.prototype.setFloat64);
+export const getInt16Mask: PrimitiveMask<number> = _makePrimitiveMaskFn(2, DataView.prototype.setInt16);
+export const getInt32Mask: PrimitiveMask<number> = _makePrimitiveMaskFn(4, DataView.prototype.setInt32);
+export const getInt64Mask: PrimitiveMask<bigint> = _makePrimitiveMaskFn(8, DataView.prototype.setBigInt64);
+export const getInt8Mask: PrimitiveMask<number> = _makePrimitiveMaskFn(1, DataView.prototype.setInt8);
+export const getUint16Mask: PrimitiveMask<number> = _makePrimitiveMaskFn(2, DataView.prototype.setUint16);
+export const getUint32Mask: PrimitiveMask<number> = _makePrimitiveMaskFn(4, DataView.prototype.setUint32);
+export const getUint64Mask: PrimitiveMask<bigint> = _makePrimitiveMaskFn(8, DataView.prototype.setBigUint64);
+export const getUint8Mask: PrimitiveMask<number> = _makePrimitiveMaskFn(1, DataView.prototype.setUint8);
 /* eslint-enable */
 
 export function getBitMask(value: boolean, bitOffset: number): DataView {

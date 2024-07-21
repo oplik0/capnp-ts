@@ -11,7 +11,11 @@ export enum Side {
     CLIENT,
 }
 export class VatId extends __S {
-    static readonly _capnp = { displayName: 'VatId', id: 'd20b909fee733a8e', size: new __O(8, 0) };
+    static readonly _capnp: {
+        displayName: string;
+        id: string;
+        size: capnp.ObjectSize;
+    } = { displayName: 'VatId', id: 'd20b909fee733a8e', size: new __O(8, 0) };
     getSide(): Side {
         return __S.getUint16(0, this);
     }
@@ -23,7 +27,11 @@ export class VatId extends __S {
     }
 }
 export class ProvisionId extends __S {
-    static readonly _capnp = { displayName: 'ProvisionId', id: 'b88d09a9c5f39817', size: new __O(8, 0) };
+    static readonly _capnp: {
+        displayName: string;
+        id: string;
+        size: capnp.ObjectSize;
+    } = { displayName: 'ProvisionId', id: 'b88d09a9c5f39817', size: new __O(8, 0) };
     getJoinId(): number {
         return __S.getUint32(0, this);
     }
@@ -35,19 +43,31 @@ export class ProvisionId extends __S {
     }
 }
 export class RecipientId extends __S {
-    static readonly _capnp = { displayName: 'RecipientId', id: '89f389b6fd4082c1', size: new __O(0, 0) };
+    static readonly _capnp: {
+        displayName: string;
+        id: string;
+        size: capnp.ObjectSize;
+    } = { displayName: 'RecipientId', id: '89f389b6fd4082c1', size: new __O(0, 0) };
     toString(): string {
         return 'RecipientId_' + super.toString();
     }
 }
 export class ThirdPartyCapId extends __S {
-    static readonly _capnp = { displayName: 'ThirdPartyCapId', id: 'b47f4979672cb59d', size: new __O(0, 0) };
+    static readonly _capnp: {
+        displayName: string;
+        id: string;
+        size: capnp.ObjectSize;
+    } = { displayName: 'ThirdPartyCapId', id: 'b47f4979672cb59d', size: new __O(0, 0) };
     toString(): string {
         return 'ThirdPartyCapId_' + super.toString();
     }
 }
 export class JoinKeyPart extends __S {
-    static readonly _capnp = { displayName: 'JoinKeyPart', id: '95b29059097fca83', size: new __O(8, 0) };
+    static readonly _capnp: {
+        displayName: string;
+        id: string;
+        size: capnp.ObjectSize;
+    } = { displayName: 'JoinKeyPart', id: '95b29059097fca83', size: new __O(8, 0) };
     getJoinId(): number {
         return __S.getUint32(0, this);
     }
@@ -71,7 +91,11 @@ export class JoinKeyPart extends __S {
     }
 }
 export class JoinResult extends __S {
-    static readonly _capnp = { displayName: 'JoinResult', id: '9d263a3630b7ebee', size: new __O(8, 1) };
+    static readonly _capnp: {
+        displayName: string;
+        id: string;
+        size: capnp.ObjectSize;
+    } = { displayName: 'JoinResult', id: '9d263a3630b7ebee', size: new __O(8, 1) };
     getJoinId(): number {
         return __S.getUint32(0, this);
     }
