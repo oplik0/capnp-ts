@@ -10,34 +10,34 @@ import { ListElementSize } from '../list-element-size.ts';
 import { getByteLength, ObjectSize, padToWord } from '../object-size.ts';
 import { Segment } from '../segment.ts';
 import {
-    getListElementByteLength,
-    getTargetListLength,
-    initPointer,
-    Pointer,
-    setListPointer,
-    setStructPointer,
+	getListElementByteLength,
+	getTargetListLength,
+	initPointer,
+	Pointer,
+	setListPointer,
+	setStructPointer,
 } from './pointer.ts';
 
 const trace = initTrace('capnp:list');
 trace('load');
 
 export interface _ListCtor {
-    readonly compositeSize?: ObjectSize;
-    readonly displayName: string;
-    readonly size: ListElementSize;
+	readonly compositeSize?: ObjectSize;
+	readonly displayName: string;
+	readonly size: ListElementSize;
 }
 
 export interface ListCtor<T> {
-    readonly _capnp: _ListCtor;
+	readonly _capnp: _ListCtor;
 
-    new (segment: Segment, byteOffset: number, depthLimit?: number): List<T>;
+	new (segment: Segment, byteOffset: number, depthLimit?: number): List<T>;
 }
 
 export type FilterCallback<T> = (this: void, value: T, index: number) => boolean;
 export type IndexedCallback<T, U> = (this: void, value: T, index: number) => U;
 
 export interface Group<T> {
-    [k: string]: T;
+	[k: string]: T;
 }
 
 /**
@@ -45,257 +45,257 @@ export interface Group<T> {
  */
 
 export class List<T> extends Pointer {
-    static readonly _capnp: _ListCtor = {
-        displayName: 'List<Generic>' as string,
-        size: ListElementSize.VOID,
-    };
-    static readonly get = get;
-    static readonly initList = initList;
-    static readonly set = set;
+	static readonly _capnp: _ListCtor = {
+		displayName: 'List<Generic>' as string,
+		size: ListElementSize.VOID,
+	};
+	static readonly get = get;
+	static readonly initList = initList;
+	static readonly set = set;
 
-    static toString(): string {
-        return this._capnp.displayName;
-    }
+	static toString(): string {
+		return this._capnp.displayName;
+	}
 
-    all(callbackfn: FilterCallback<T>): boolean {
-        const length = this.getLength();
+	all(callbackfn: FilterCallback<T>): boolean {
+		const length = this.getLength();
 
-        for (let i = 0; i < length; i++) {
-            if (!callbackfn(this.get(i), i)) return false;
-        }
+		for (let i = 0; i < length; i++) {
+			if (!callbackfn(this.get(i), i)) return false;
+		}
 
-        return true;
-    }
+		return true;
+	}
 
-    any(callbackfn: FilterCallback<T>): boolean {
-        const length = this.getLength();
+	any(callbackfn: FilterCallback<T>): boolean {
+		const length = this.getLength();
 
-        for (let i = 0; i < length; i++) {
-            if (callbackfn(this.get(i), i)) return true;
-        }
+		for (let i = 0; i < length; i++) {
+			if (callbackfn(this.get(i), i)) return true;
+		}
 
-        return false;
-    }
+		return false;
+	}
 
-    ap<U>(callbackfns: Array<IndexedCallback<T, U>>): U[] {
-        const length = this.getLength();
-        const res: U[] = [];
+	ap<U>(callbackfns: Array<IndexedCallback<T, U>>): U[] {
+		const length = this.getLength();
+		const res: U[] = [];
 
-        for (let i = 0; i < length; i++) {
-            res.push(...callbackfns.map((f) => f(this.get(i), i)));
-        }
+		for (let i = 0; i < length; i++) {
+			res.push(...callbackfns.map((f) => f(this.get(i), i)));
+		}
 
-        return res;
-    }
+		return res;
+	}
 
-    concat(other: List<T>): T[] {
-        const length = this.getLength();
-        const otherLength = other.getLength();
-        const res = new Array<T>(length + otherLength);
+	concat(other: List<T>): T[] {
+		const length = this.getLength();
+		const otherLength = other.getLength();
+		const res = new Array<T>(length + otherLength);
 
-        for (let i = 0; i < length; i++) res[i] = this.get(i);
+		for (let i = 0; i < length; i++) res[i] = this.get(i);
 
-        for (let i = 0; i < otherLength; i++) res[i + length] = other.get(i);
+		for (let i = 0; i < otherLength; i++) res[i + length] = other.get(i);
 
-        return res;
-    }
+		return res;
+	}
 
-    drop(n: number): T[] {
-        const length = this.getLength();
-        const res = new Array(length) as T[];
+	drop(n: number): T[] {
+		const length = this.getLength();
+		const res = new Array(length) as T[];
 
-        for (let i = n; i < length; i++) res[i] = this.get(i);
+		for (let i = n; i < length; i++) res[i] = this.get(i);
 
-        return res;
-    }
+		return res;
+	}
 
-    dropWhile(callbackfn: FilterCallback<T>): T[] {
-        const length = this.getLength();
-        const res: T[] = [];
-        let drop = true;
+	dropWhile(callbackfn: FilterCallback<T>): T[] {
+		const length = this.getLength();
+		const res: T[] = [];
+		let drop = true;
 
-        for (let i = 0; i < length; i++) {
-            const v = this.get(i);
+		for (let i = 0; i < length; i++) {
+			const v = this.get(i);
 
-            if (drop) drop = callbackfn(v, i);
+			if (drop) drop = callbackfn(v, i);
 
-            if (!drop) res.push(v);
-        }
+			if (!drop) res.push(v);
+		}
 
-        return res;
-    }
+		return res;
+	}
 
-    empty(): T[] {
-        return [] as T[];
-    }
+	empty(): T[] {
+		return [] as T[];
+	}
 
-    every(callbackfn: FilterCallback<T>): boolean {
-        return this.all(callbackfn);
-    }
+	every(callbackfn: FilterCallback<T>): boolean {
+		return this.all(callbackfn);
+	}
 
-    filter(callbackfn: FilterCallback<T>): T[] {
-        const length = this.getLength();
-        const res: T[] = [];
+	filter(callbackfn: FilterCallback<T>): T[] {
+		const length = this.getLength();
+		const res: T[] = [];
 
-        for (let i = 0; i < length; i++) {
-            const value = this.get(i);
+		for (let i = 0; i < length; i++) {
+			const value = this.get(i);
 
-            if (callbackfn(value, i)) res.push(value);
-        }
+			if (callbackfn(value, i)) res.push(value);
+		}
 
-        return res;
-    }
+		return res;
+	}
 
-    find(callbackfn: FilterCallback<T>): T | undefined {
-        const length = this.getLength();
+	find(callbackfn: FilterCallback<T>): T | undefined {
+		const length = this.getLength();
 
-        for (let i = 0; i < length; i++) {
-            const value = this.get(i);
+		for (let i = 0; i < length; i++) {
+			const value = this.get(i);
 
-            if (callbackfn(value, i)) return value;
-        }
+			if (callbackfn(value, i)) return value;
+		}
 
-        return undefined;
-    }
+		return undefined;
+	}
 
-    findIndex(callbackfn: FilterCallback<T>): number {
-        const length = this.getLength();
+	findIndex(callbackfn: FilterCallback<T>): number {
+		const length = this.getLength();
 
-        for (let i = 0; i < length; i++) {
-            const value = this.get(i);
+		for (let i = 0; i < length; i++) {
+			const value = this.get(i);
 
-            if (callbackfn(value, i)) return i;
-        }
+			if (callbackfn(value, i)) return i;
+		}
 
-        return -1;
-    }
+		return -1;
+	}
 
-    forEach(callbackfn: (this: void, value: T, index: number) => void): void {
-        const length = this.getLength();
+	forEach(callbackfn: (this: void, value: T, index: number) => void): void {
+		const length = this.getLength();
 
-        for (let i = 0; i < length; i++) callbackfn(this.get(i), i);
-    }
+		for (let i = 0; i < length; i++) callbackfn(this.get(i), i);
+	}
 
-    get(_index: number): T {
-        return get(_index, this);
-    }
+	get(_index: number): T {
+		return get(_index, this);
+	}
 
-    /**
-     * Get the length of this list.
-     *
-     * @returns {number} The number of elements in this list.
-     */
+	/**
+	 * Get the length of this list.
+	 *
+	 * @returns {number} The number of elements in this list.
+	 */
 
-    getLength(): number {
-        return getTargetListLength(this);
-    }
+	getLength(): number {
+		return getTargetListLength(this);
+	}
 
-    groupBy(callbackfn: IndexedCallback<T, string>): Group<T> {
-        const length = this.getLength();
-        const res: Group<T> = {};
+	groupBy(callbackfn: IndexedCallback<T, string>): Group<T> {
+		const length = this.getLength();
+		const res: Group<T> = {};
 
-        for (let i = 0; i < length; i++) {
-            const v = this.get(i);
-            res[callbackfn(v, i)] = v;
-        }
+		for (let i = 0; i < length; i++) {
+			const v = this.get(i);
+			res[callbackfn(v, i)] = v;
+		}
 
-        return res;
-    }
+		return res;
+	}
 
-    intersperse(sep: T): T[] {
-        const length = this.getLength();
-        const res = new Array(length) as T[];
+	intersperse(sep: T): T[] {
+		const length = this.getLength();
+		const res = new Array(length) as T[];
 
-        for (let i = 0; i < length; i++) {
-            if (i > 0) res.push(sep);
+		for (let i = 0; i < length; i++) {
+			if (i > 0) res.push(sep);
 
-            res.push(this.get(i));
-        }
+			res.push(this.get(i));
+		}
 
-        return res;
-    }
+		return res;
+	}
 
-    map<U>(callbackfn: IndexedCallback<T, U>): U[] {
-        const length = this.getLength();
-        const res = new Array(length) as U[];
+	map<U>(callbackfn: IndexedCallback<T, U>): U[] {
+		const length = this.getLength();
+		const res = new Array(length) as U[];
 
-        for (let i = 0; i < length; i++) res[i] = callbackfn(this.get(i), i);
+		for (let i = 0; i < length; i++) res[i] = callbackfn(this.get(i), i);
 
-        return res;
-    }
+		return res;
+	}
 
-    reduce(callbackfn: (previousValue: T, currentValue: T, currentIndex: number) => T): T;
-    reduce<U>(callbackfn: (previousValue: U, currentValue: T, currentIndex: number) => U, initialValue: U): U;
-    reduce<U>(
-        callbackfn: (previousValue: T | U, currentValue: T, currentIndex: number) => T | U,
-        initialValue?: U,
-    ): T | U {
-        let i = 0;
-        let res: T | U;
+	reduce(callbackfn: (previousValue: T, currentValue: T, currentIndex: number) => T): T;
+	reduce<U>(callbackfn: (previousValue: U, currentValue: T, currentIndex: number) => U, initialValue: U): U;
+	reduce<U>(
+		callbackfn: (previousValue: T | U, currentValue: T, currentIndex: number) => T | U,
+		initialValue?: U,
+	): T | U {
+		let i = 0;
+		let res: T | U;
 
-        if (initialValue === undefined) {
-            res = this.get(0);
-            i++;
-        } else {
-            res = initialValue;
-        }
+		if (initialValue === undefined) {
+			res = this.get(0);
+			i++;
+		} else {
+			res = initialValue;
+		}
 
-        for (; i < this.getLength(); i++) res = callbackfn(res, this.get(i), i);
+		for (; i < this.getLength(); i++) res = callbackfn(res, this.get(i), i);
 
-        return res;
-    }
+		return res;
+	}
 
-    set(_index: number, _value: T): void {
-        set(_index, _value, this);
-    }
+	set(_index: number, _value: T): void {
+		set(_index, _value, this);
+	}
 
-    slice(start = 0, end?: number): T[] {
-        const length = end ? Math.min(this.getLength(), end) : this.getLength();
-        const res = new Array(length - start) as T[];
+	slice(start = 0, end?: number): T[] {
+		const length = end ? Math.min(this.getLength(), end) : this.getLength();
+		const res = new Array(length - start) as T[];
 
-        for (let i = start; i < length; i++) res[i] = this.get(i);
+		for (let i = start; i < length; i++) res[i] = this.get(i);
 
-        return res;
-    }
+		return res;
+	}
 
-    some(callbackfn: FilterCallback<T>): boolean {
-        return this.any(callbackfn);
-    }
+	some(callbackfn: FilterCallback<T>): boolean {
+		return this.any(callbackfn);
+	}
 
-    take(n: number): T[] {
-        const length = Math.min(this.getLength(), n);
-        const res = new Array(length) as T[];
+	take(n: number): T[] {
+		const length = Math.min(this.getLength(), n);
+		const res = new Array(length) as T[];
 
-        for (let i = 0; i < length; i++) res[i] = this.get(i);
+		for (let i = 0; i < length; i++) res[i] = this.get(i);
 
-        return res;
-    }
+		return res;
+	}
 
-    takeWhile(callbackfn: FilterCallback<T>): T[] {
-        const length = this.getLength();
-        const res: T[] = [];
-        let take;
+	takeWhile(callbackfn: FilterCallback<T>): T[] {
+		const length = this.getLength();
+		const res: T[] = [];
+		let take;
 
-        for (let i = 0; i < length; i++) {
-            const v = this.get(i);
+		for (let i = 0; i < length; i++) {
+			const v = this.get(i);
 
-            take = callbackfn(v, i);
+			take = callbackfn(v, i);
 
-            if (!take) return res;
+			if (!take) return res;
 
-            res.push(v);
-        }
+			res.push(v);
+		}
 
-        return res;
-    }
+		return res;
+	}
 
-    toArray(): T[] {
-        return this.map(identity);
-    }
+	toArray(): T[] {
+		return this.map(identity);
+	}
 
-    toString(): string {
-        return `List_${super.toString()}`;
-    }
+	toString(): string {
+		return `List_${super.toString()}`;
+	}
 }
 
 /**
@@ -311,71 +311,71 @@ export class List<T> extends Pointer {
  */
 
 export function initList<T>(
-    elementSize: ListElementSize,
-    length: number,
-    l: List<T>,
-    compositeSize?: ObjectSize,
+	elementSize: ListElementSize,
+	length: number,
+	l: List<T>,
+	compositeSize?: ObjectSize,
 ): void {
-    let c: Pointer;
+	let c: Pointer;
 
-    switch (elementSize) {
-        case ListElementSize.BIT:
-            c = l.segment.allocate(Math.ceil(length / 8));
+	switch (elementSize) {
+		case ListElementSize.BIT:
+			c = l.segment.allocate(Math.ceil(length / 8));
 
-            break;
+			break;
 
-        case ListElementSize.BYTE:
-        case ListElementSize.BYTE_2:
-        case ListElementSize.BYTE_4:
-        case ListElementSize.BYTE_8:
-        case ListElementSize.POINTER:
-            c = l.segment.allocate(length * getListElementByteLength(elementSize));
+		case ListElementSize.BYTE:
+		case ListElementSize.BYTE_2:
+		case ListElementSize.BYTE_4:
+		case ListElementSize.BYTE_8:
+		case ListElementSize.POINTER:
+			c = l.segment.allocate(length * getListElementByteLength(elementSize));
 
-            break;
+			break;
 
-        case ListElementSize.COMPOSITE: {
-            if (compositeSize === undefined) {
-                throw new Error(format(PTR_COMPOSITE_SIZE_UNDEFINED));
-            }
+		case ListElementSize.COMPOSITE: {
+			if (compositeSize === undefined) {
+				throw new Error(format(PTR_COMPOSITE_SIZE_UNDEFINED));
+			}
 
-            compositeSize = padToWord(compositeSize);
+			compositeSize = padToWord(compositeSize);
 
-            const byteLength = getByteLength(compositeSize) * length;
+			const byteLength = getByteLength(compositeSize) * length;
 
-            // We need to allocate an extra 8 bytes for the tag word, then make sure we write the length to it. We advance
-            // the content pointer by 8 bytes so that it then points to the first list element as intended. Everything
-            // starts off zeroed out so these nested structs don't need to be initialized in any way.
+			// We need to allocate an extra 8 bytes for the tag word, then make sure we write the length to it. We advance
+			// the content pointer by 8 bytes so that it then points to the first list element as intended. Everything
+			// starts off zeroed out so these nested structs don't need to be initialized in any way.
 
-            c = l.segment.allocate(byteLength + 8);
+			c = l.segment.allocate(byteLength + 8);
 
-            setStructPointer(length, compositeSize, c);
+			setStructPointer(length, compositeSize, c);
 
-            trace('Wrote composite tag word %s for %s.', c, l);
+			trace('Wrote composite tag word %s for %s.', c, l);
 
-            break;
-        }
-        case ListElementSize.VOID:
-            // No need to allocate anything, we can write the list pointer right here.
+			break;
+		}
+		case ListElementSize.VOID:
+			// No need to allocate anything, we can write the list pointer right here.
 
-            setListPointer(0, elementSize, length, l);
+			setListPointer(0, elementSize, length, l);
 
-            return;
+			return;
 
-        default:
-            throw new Error(format(PTR_INVALID_LIST_SIZE, elementSize));
-    }
+		default:
+			throw new Error(format(PTR_INVALID_LIST_SIZE, elementSize));
+	}
 
-    const res = initPointer(c.segment, c.byteOffset, l);
+	const res = initPointer(c.segment, c.byteOffset, l);
 
-    setListPointer(res.offsetWords, elementSize, length, res.pointer, compositeSize);
+	setListPointer(res.offsetWords, elementSize, length, res.pointer, compositeSize);
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function get<T>(_index: number, _l: List<T>): T {
-    throw new TypeError();
+	throw new TypeError();
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function set<T>(_index: number, _value: T, _l: List<T>): void {
-    throw new TypeError();
+	throw new TypeError();
 }

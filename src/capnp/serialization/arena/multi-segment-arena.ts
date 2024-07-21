@@ -13,39 +13,39 @@ const trace = initTrace('capnp:arena:multi');
 trace('load');
 
 export class MultiSegmentArena {
-    static readonly allocate = allocate;
-    static readonly getBuffer = getBuffer;
-    static readonly getNumSegments = getNumSegments;
+	static readonly allocate = allocate;
+	static readonly getBuffer = getBuffer;
+	static readonly getNumSegments = getNumSegments;
 
-    readonly buffers: ArrayBuffer[];
-    readonly kind = ArenaKind.MULTI_SEGMENT;
+	readonly buffers: ArrayBuffer[];
+	readonly kind = ArenaKind.MULTI_SEGMENT;
 
-    constructor(buffers: ArrayBuffer[] = []) {
-        this.buffers = buffers;
+	constructor(buffers: ArrayBuffer[] = []) {
+		this.buffers = buffers;
 
-        trace('new %s', this);
-    }
+		trace('new %s', this);
+	}
 
-    toString(): string {
-        return format('MultiSegmentArena_segments:%d', getNumSegments(this));
-    }
+	toString(): string {
+		return format('MultiSegmentArena_segments:%d', getNumSegments(this));
+	}
 }
 
 export function allocate(minSize: number, m: MultiSegmentArena): ArenaAllocationResult {
-    const b = new ArrayBuffer(padToWord(Math.max(minSize, DEFAULT_BUFFER_SIZE)));
-    m.buffers.push(b);
+	const b = new ArrayBuffer(padToWord(Math.max(minSize, DEFAULT_BUFFER_SIZE)));
+	m.buffers.push(b);
 
-    return new ArenaAllocationResult(m.buffers.length - 1, b);
+	return new ArenaAllocationResult(m.buffers.length - 1, b);
 }
 
 export function getBuffer(id: number, m: MultiSegmentArena): ArrayBuffer {
-    if (id < 0 || id >= m.buffers.length) {
-        throw new Error(format(SEG_ID_OUT_OF_BOUNDS, id));
-    }
+	if (id < 0 || id >= m.buffers.length) {
+		throw new Error(format(SEG_ID_OUT_OF_BOUNDS, id));
+	}
 
-    return m.buffers[id];
+	return m.buffers[id];
 }
 
 export function getNumSegments(m: MultiSegmentArena): number {
-    return m.buffers.length;
+	return m.buffers.length;
 }

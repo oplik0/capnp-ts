@@ -8,61 +8,61 @@ import { CodeGeneratorFileContext } from './code-generator-file-context.ts';
 import { SOURCE_COMMENT } from './constants.ts';
 import { loadRequestedFile, lookupNode } from './file.ts';
 import {
-    generateCapnpImport,
-    generateConcreteListInitializer,
-    generateFileId,
-    generateNestedImports,
-    generateNode,
+	generateCapnpImport,
+	generateConcreteListInitializer,
+	generateFileId,
+	generateNestedImports,
+	generateNode,
 } from './generators.ts';
 
 const trace = initTrace('capnpc:compile');
 trace('load');
 
 export function compile(ctx: CodeGeneratorFileContext): string {
-    generateCapnpImport(ctx);
+	generateCapnpImport(ctx);
 
-    generateNestedImports(ctx);
+	generateNestedImports(ctx);
 
-    generateFileId(ctx);
+	generateFileId(ctx);
 
-    lookupNode(ctx, ctx.file)
-        .getNestedNodes()
-        .map((n) => lookupNode(ctx, n))
-        .forEach((n) => generateNode(ctx, n));
+	lookupNode(ctx, ctx.file)
+		.getNestedNodes()
+		.map((n) => lookupNode(ctx, n))
+		.forEach((n) => generateNode(ctx, n));
 
-    ctx.concreteLists.forEach(([fullClassName, field]) => generateConcreteListInitializer(ctx, fullClassName, field));
+	ctx.concreteLists.forEach(([fullClassName, field]) => generateConcreteListInitializer(ctx, fullClassName, field));
 
-    const sourceFile = createSourceFile(ctx.tsPath, '', ScriptTarget.Latest, false, ScriptKind.TS);
-    const printer = createPrinter();
-    const source = ctx.statements.map((s) => printer.printNode(EmitHint.Unspecified, s, sourceFile)).join('\n') +
-        '\n';
+	const sourceFile = createSourceFile(ctx.tsPath, '', ScriptTarget.Latest, false, ScriptKind.TS);
+	const printer = createPrinter();
+	const source = ctx.statements.map((s) => printer.printNode(EmitHint.Unspecified, s, sourceFile)).join('\n') +
+		'\n';
 
-    return SOURCE_COMMENT + source;
+	return SOURCE_COMMENT + source;
 }
 
 export function loadRequest(req: s.CodeGeneratorRequest): CodeGeneratorContext {
-    trace('loadRequest(%s)', req);
+	trace('loadRequest(%s)', req);
 
-    const ctx = new CodeGeneratorContext();
+	const ctx = new CodeGeneratorContext();
 
-    ctx.files = req.getRequestedFiles().map((file) => loadRequestedFile(req, file));
+	ctx.files = req.getRequestedFiles().map((file) => loadRequestedFile(req, file));
 
-    return ctx;
+	return ctx;
 }
 
 export function printSourceFiles(ctx: CodeGeneratorContext): string[] {
-    trace('printSourceFiles()');
+	trace('printSourceFiles()');
 
-    return ctx.files.map(compile);
+	return ctx.files.map(compile);
 }
 
 export function writeTsFiles(ctx: CodeGeneratorContext): void {
-    trace('writeTsFiles()');
+	trace('writeTsFiles()');
 
-    ctx.files.forEach((f) => {
-        trace('writing %s', f.tsPath);
+	ctx.files.forEach((f) => {
+		trace('writing %s', f.tsPath);
 
-        mkdirSync(dirname(f.tsPath), { recursive: true });
-        writeFileSync(f.tsPath, compile(f), { encoding: 'utf-8' });
-    });
+		mkdirSync(dirname(f.tsPath), { recursive: true });
+		writeFileSync(f.tsPath, compile(f), { encoding: 'utf-8' });
+	});
 }

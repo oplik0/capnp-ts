@@ -21,12 +21,12 @@ trace('load');
  */
 
 export function bufferToHex(buffer: ArrayBuffer): string {
-    const a = new Uint8Array(buffer);
-    const h = [];
+	const a = new Uint8Array(buffer);
+	const h = [];
 
-    for (let i = 0; i < a.byteLength; i++) h.push(pad(a[i].toString(16), 2));
+	for (let i = 0; i < a.byteLength; i++) h.push(pad(a[i].toString(16), 2));
 
-    return `[${h.join(' ')}]`;
+	return `[${h.join(' ')}]`;
 }
 
 /**
@@ -38,19 +38,19 @@ export function bufferToHex(buffer: ArrayBuffer): string {
  */
 
 export function checkInt32(value: number): number {
-    if (value > MAX_INT32 || value < -MAX_INT32) {
-        throw new RangeError(RANGE_INT32_OVERFLOW);
-    }
+	if (value > MAX_INT32 || value < -MAX_INT32) {
+		throw new RangeError(RANGE_INT32_OVERFLOW);
+	}
 
-    return value;
+	return value;
 }
 
 export function checkUint32(value: number): number {
-    if (value < 0 || value > MAX_UINT32) {
-        throw new RangeError(RANGE_UINT32_OVERFLOW);
-    }
+	if (value < 0 || value > MAX_UINT32) {
+		throw new RangeError(RANGE_UINT32_OVERFLOW);
+	}
 
-    return value;
+	return value;
 }
 
 /**
@@ -62,103 +62,103 @@ export function checkUint32(value: number): number {
  */
 
 export function decodeUtf8(src: Uint8Array): string {
-    // This ain't for the faint of heart, kids. If you suffer from seizures, heart palpitations, or have had a history of
-    // stroke you may want to look away now.
+	// This ain't for the faint of heart, kids. If you suffer from seizures, heart palpitations, or have had a history of
+	// stroke you may want to look away now.
 
-    const l = src.byteLength;
-    let dst = '';
-    let i = 0;
-    let cp = 0;
-    let a = 0;
-    let b = 0;
-    let c = 0;
-    let d = 0;
+	const l = src.byteLength;
+	let dst = '';
+	let i = 0;
+	let cp = 0;
+	let a = 0;
+	let b = 0;
+	let c = 0;
+	let d = 0;
 
-    while (i < l) {
-        a = src[i++];
+	while (i < l) {
+		a = src[i++];
 
-        if ((a & 0b10000000) === 0) {
-            cp = a;
-        } else if ((a & 0b11100000) === 0b11000000) {
-            if (i >= l) throw new RangeError(RANGE_INVALID_UTF8);
+		if ((a & 0b10000000) === 0) {
+			cp = a;
+		} else if ((a & 0b11100000) === 0b11000000) {
+			if (i >= l) throw new RangeError(RANGE_INVALID_UTF8);
 
-            b = src[i++];
+			b = src[i++];
 
-            cp = ((a & 0b00011111) << 6) | (b & 0b00111111);
-        } else if ((a & 0b11110000) === 0b11100000) {
-            if (i + 1 >= l) throw new RangeError(RANGE_INVALID_UTF8);
+			cp = ((a & 0b00011111) << 6) | (b & 0b00111111);
+		} else if ((a & 0b11110000) === 0b11100000) {
+			if (i + 1 >= l) throw new RangeError(RANGE_INVALID_UTF8);
 
-            b = src[i++];
-            c = src[i++];
+			b = src[i++];
+			c = src[i++];
 
-            cp = ((a & 0b00001111) << 12) | ((b & 0b00111111) << 6) | (c & 0b00111111);
-        } else if ((a & 0b11111000) === 0b11110000) {
-            if (i + 2 >= l) throw new RangeError(RANGE_INVALID_UTF8);
+			cp = ((a & 0b00001111) << 12) | ((b & 0b00111111) << 6) | (c & 0b00111111);
+		} else if ((a & 0b11111000) === 0b11110000) {
+			if (i + 2 >= l) throw new RangeError(RANGE_INVALID_UTF8);
 
-            b = src[i++];
-            c = src[i++];
-            d = src[i++];
+			b = src[i++];
+			c = src[i++];
+			d = src[i++];
 
-            cp = ((a & 0b00000111) << 18) | ((b & 0b00111111) << 12) | ((c & 0b00111111) << 6) | (d & 0b00111111);
-        } else {
-            throw new RangeError(RANGE_INVALID_UTF8);
-        }
+			cp = ((a & 0b00000111) << 18) | ((b & 0b00111111) << 12) | ((c & 0b00111111) << 6) | (d & 0b00111111);
+		} else {
+			throw new RangeError(RANGE_INVALID_UTF8);
+		}
 
-        if (cp <= 0xd7ff || (cp >= 0xe000 && cp <= 0xffff)) {
-            dst += String.fromCharCode(cp);
-        } else {
-            // We must reach into the astral plane and construct the surrogate pair!
+		if (cp <= 0xd7ff || (cp >= 0xe000 && cp <= 0xffff)) {
+			dst += String.fromCharCode(cp);
+		} else {
+			// We must reach into the astral plane and construct the surrogate pair!
 
-            cp -= 0x00010000;
+			cp -= 0x00010000;
 
-            const hi = (cp >>> 10) + 0xd800;
-            const lo = (cp & 0x03ff) + 0xdc00;
+			const hi = (cp >>> 10) + 0xd800;
+			const lo = (cp & 0x03ff) + 0xdc00;
 
-            if (hi < 0xd800 || hi > 0xdbff) throw new RangeError(RANGE_INVALID_UTF8);
+			if (hi < 0xd800 || hi > 0xdbff) throw new RangeError(RANGE_INVALID_UTF8);
 
-            dst += String.fromCharCode(hi, lo);
-        }
-    }
+			dst += String.fromCharCode(hi, lo);
+		}
+	}
 
-    return dst;
+	return dst;
 }
 
 export function dumpBuffer(buffer: ArrayBuffer | ArrayBufferView): string {
-    const b = buffer instanceof ArrayBuffer
-        ? new Uint8Array(buffer)
-        : new Uint8Array(buffer.buffer, buffer.byteOffset, buffer.byteLength);
+	const b = buffer instanceof ArrayBuffer
+		? new Uint8Array(buffer)
+		: new Uint8Array(buffer.buffer, buffer.byteOffset, buffer.byteLength);
 
-    const byteLength = Math.min(b.byteLength, MAX_BUFFER_DUMP_BYTES);
+	const byteLength = Math.min(b.byteLength, MAX_BUFFER_DUMP_BYTES);
 
-    let r = format('\n=== buffer[%d] ===', byteLength);
+	let r = format('\n=== buffer[%d] ===', byteLength);
 
-    for (let j = 0; j < byteLength; j += 16) {
-        r += `\n${pad(j.toString(16), 8)}: `;
-        let s = '';
-        let k;
+	for (let j = 0; j < byteLength; j += 16) {
+		r += `\n${pad(j.toString(16), 8)}: `;
+		let s = '';
+		let k;
 
-        for (k = 0; k < 16 && j + k < b.byteLength; k++) {
-            const v = b[j + k];
+		for (k = 0; k < 16 && j + k < b.byteLength; k++) {
+			const v = b[j + k];
 
-            r += `${pad(v.toString(16), 2)} `;
+			r += `${pad(v.toString(16), 2)} `;
 
-            // Printable ASCII range.
+			// Printable ASCII range.
 
-            s += v > 31 && v < 255 ? String.fromCharCode(v) : '·';
+			s += v > 31 && v < 255 ? String.fromCharCode(v) : '·';
 
-            if (k === 7) r += ' ';
-        }
+			if (k === 7) r += ' ';
+		}
 
-        r += `${repeat((17 - k) * 3, ' ')}${s}`;
-    }
+		r += `${repeat((17 - k) * 3, ' ')}${s}`;
+	}
 
-    r += '\n';
+	r += '\n';
 
-    if (byteLength !== b.byteLength) {
-        r += format('=== (truncated %d bytes) ===\n', b.byteLength - byteLength);
-    }
+	if (byteLength !== b.byteLength) {
+		r += format('=== (truncated %d bytes) ===\n', b.byteLength - byteLength);
+	}
 
-    return r;
+	return r;
 }
 
 /**
@@ -172,41 +172,41 @@ export function dumpBuffer(buffer: ArrayBuffer | ArrayBufferView): string {
  */
 
 export function encodeUtf8(src: string): Uint8Array {
-    const l = src.length;
-    const dst = new Uint8Array(new ArrayBuffer(l * 4));
-    let j = 0;
+	const l = src.length;
+	const dst = new Uint8Array(new ArrayBuffer(l * 4));
+	let j = 0;
 
-    for (let i = 0; i < l; i++) {
-        const c = src.charCodeAt(i);
+	for (let i = 0; i < l; i++) {
+		const c = src.charCodeAt(i);
 
-        if (c <= 0x7f) {
-            dst[j++] = c;
-        } else if (c <= 0x07ff) {
-            dst[j++] = 0b11000000 | (c >>> 6);
-            dst[j++] = 0b10000000 | ((c >>> 0) & 0b00111111);
-        } else if (c <= 0xd7ff || c >= 0xe000) {
-            dst[j++] = 0b11100000 | (c >>> 12);
-            dst[j++] = 0b10000000 | ((c >>> 6) & 0b00111111);
-            dst[j++] = 0b10000000 | ((c >>> 0) & 0b00111111);
-        } else {
-            // Make sure the surrogate pair is complete.
-            /* istanbul ignore next */
-            if (i + 1 >= l) throw new RangeError(RANGE_INVALID_UTF8);
+		if (c <= 0x7f) {
+			dst[j++] = c;
+		} else if (c <= 0x07ff) {
+			dst[j++] = 0b11000000 | (c >>> 6);
+			dst[j++] = 0b10000000 | ((c >>> 0) & 0b00111111);
+		} else if (c <= 0xd7ff || c >= 0xe000) {
+			dst[j++] = 0b11100000 | (c >>> 12);
+			dst[j++] = 0b10000000 | ((c >>> 6) & 0b00111111);
+			dst[j++] = 0b10000000 | ((c >>> 0) & 0b00111111);
+		} else {
+			// Make sure the surrogate pair is complete.
+			/* istanbul ignore next */
+			if (i + 1 >= l) throw new RangeError(RANGE_INVALID_UTF8);
 
-            // I cast thee back into the astral plane.
+			// I cast thee back into the astral plane.
 
-            const hi = c - 0xd800;
-            const lo = src.charCodeAt(++i) - 0xdc00;
-            const cp = ((hi << 10) | lo) + 0x00010000;
+			const hi = c - 0xd800;
+			const lo = src.charCodeAt(++i) - 0xdc00;
+			const cp = ((hi << 10) | lo) + 0x00010000;
 
-            dst[j++] = 0b11110000 | (cp >>> 18);
-            dst[j++] = 0b10000000 | ((cp >>> 12) & 0b00111111);
-            dst[j++] = 0b10000000 | ((cp >>> 6) & 0b00111111);
-            dst[j++] = 0b10000000 | ((cp >>> 0) & 0b00111111);
-        }
-    }
+			dst[j++] = 0b11110000 | (cp >>> 18);
+			dst[j++] = 0b10000000 | ((cp >>> 12) & 0b00111111);
+			dst[j++] = 0b10000000 | ((cp >>> 6) & 0b00111111);
+			dst[j++] = 0b10000000 | ((cp >>> 0) & 0b00111111);
+		}
+	}
 
-    return dst.subarray(0, j);
+	return dst.subarray(0, j);
 }
 
 /**
@@ -220,125 +220,125 @@ export function encodeUtf8(src: string): Uint8Array {
  */
 
 export function format(s: string, ...args: unknown[]): string {
-    const n = s.length;
-    let arg: unknown;
-    let argIndex = 0;
-    let c: string;
-    let escaped = false;
-    let i = 0;
-    let leadingZero = false;
-    let precision: number | null;
-    let result = '';
+	const n = s.length;
+	let arg: unknown;
+	let argIndex = 0;
+	let c: string;
+	let escaped = false;
+	let i = 0;
+	let leadingZero = false;
+	let precision: number | null;
+	let result = '';
 
-    function nextArg() {
-        return args[argIndex++];
-    }
+	function nextArg() {
+		return args[argIndex++];
+	}
 
-    function slurpNumber() {
-        let digits = '';
+	function slurpNumber() {
+		let digits = '';
 
-        while (/\d/.test(s[i])) {
-            digits += s[i++];
-            c = s[i];
-        }
+		while (/\d/.test(s[i])) {
+			digits += s[i++];
+			c = s[i];
+		}
 
-        return digits.length > 0 ? parseInt(digits, 10) : null;
-    }
+		return digits.length > 0 ? parseInt(digits, 10) : null;
+	}
 
-    for (; i < n; ++i) {
-        c = s[i];
+	for (; i < n; ++i) {
+		c = s[i];
 
-        if (escaped) {
-            escaped = false;
+		if (escaped) {
+			escaped = false;
 
-            if (c === '.') {
-                leadingZero = false;
+			if (c === '.') {
+				leadingZero = false;
 
-                c = s[++i];
-            } else if (c === '0' && s[i + 1] === '.') {
-                leadingZero = true;
+				c = s[++i];
+			} else if (c === '0' && s[i + 1] === '.') {
+				leadingZero = true;
 
-                i += 2;
-                c = s[i];
-            } else {
-                leadingZero = true;
-            }
+				i += 2;
+				c = s[i];
+			} else {
+				leadingZero = true;
+			}
 
-            precision = slurpNumber();
+			precision = slurpNumber();
 
-            switch (c) {
-                case 'a': // number in hex with padding
-                    result += '0x' + pad(parseInt(String(nextArg()), 10).toString(16), 8);
+			switch (c) {
+				case 'a': // number in hex with padding
+					result += '0x' + pad(parseInt(String(nextArg()), 10).toString(16), 8);
 
-                    break;
+					break;
 
-                case 'b': // number in binary
-                    result += parseInt(String(nextArg()), 10).toString(2);
+				case 'b': // number in binary
+					result += parseInt(String(nextArg()), 10).toString(2);
 
-                    break;
+					break;
 
-                case 'c': // character
-                    arg = nextArg();
+				case 'c': // character
+					arg = nextArg();
 
-                    if (typeof arg === 'string' || arg instanceof String) {
-                        result += arg;
-                    } else {
-                        result += String.fromCharCode(parseInt(String(arg), 10));
-                    }
+					if (typeof arg === 'string' || arg instanceof String) {
+						result += arg;
+					} else {
+						result += String.fromCharCode(parseInt(String(arg), 10));
+					}
 
-                    break;
+					break;
 
-                case 'd': // number in decimal
-                    result += parseInt(String(nextArg()), 10);
+				case 'd': // number in decimal
+					result += parseInt(String(nextArg()), 10);
 
-                    break;
+					break;
 
-                case 'f': {
-                    // floating point number
-                    const tmp = parseFloat(String(nextArg())).toFixed(precision || 6);
+				case 'f': {
+					// floating point number
+					const tmp = parseFloat(String(nextArg())).toFixed(precision || 6);
 
-                    result += leadingZero ? tmp : tmp.replace(/^0/, '');
+					result += leadingZero ? tmp : tmp.replace(/^0/, '');
 
-                    break;
-                }
-                case 'j': // JSON
-                    result += JSON.stringify(nextArg());
+					break;
+				}
+				case 'j': // JSON
+					result += JSON.stringify(nextArg());
 
-                    break;
+					break;
 
-                case 'o': // number in octal
-                    result += '0' + parseInt(String(nextArg()), 10).toString(8);
+				case 'o': // number in octal
+					result += '0' + parseInt(String(nextArg()), 10).toString(8);
 
-                    break;
+					break;
 
-                case 's': // string
-                    result += nextArg();
+				case 's': // string
+					result += nextArg();
 
-                    break;
+					break;
 
-                case 'x': // lowercase hexadecimal
-                    result += '0x' + parseInt(String(nextArg()), 10).toString(16);
+				case 'x': // lowercase hexadecimal
+					result += '0x' + parseInt(String(nextArg()), 10).toString(16);
 
-                    break;
+					break;
 
-                case 'X': // uppercase hexadecimal
-                    result += '0x' + parseInt(String(nextArg()), 10).toString(16).toUpperCase();
+				case 'X': // uppercase hexadecimal
+					result += '0x' + parseInt(String(nextArg()), 10).toString(16).toUpperCase();
 
-                    break;
+					break;
 
-                default:
-                    result += c;
+				default:
+					result += c;
 
-                    break;
-            }
-        } else if (c === '%') {
-            escaped = true;
-        } else {
-            result += c;
-        }
-    }
+					break;
+			}
+		} else if (c === '%') {
+			escaped = true;
+		} else {
+			result += c;
+		}
+	}
 
-    return result;
+	return result;
 }
 
 /**
@@ -351,11 +351,11 @@ export function format(s: string, ...args: unknown[]): string {
  */
 
 export function identity<T>(x: T): T {
-    return x;
+	return x;
 }
 
 export function pad(v: string, width: number, pad = '0'): string {
-    return v.length >= width ? v : new Array(width - v.length + 1).join(pad) + v;
+	return v.length >= width ? v : new Array(width - v.length + 1).join(pad) + v;
 }
 
 /**
@@ -367,7 +367,7 @@ export function pad(v: string, width: number, pad = '0'): string {
  */
 
 export function padToWord(size: number): number {
-    return (size + 7) & ~7;
+	return (size + 7) & ~7;
 }
 
 /**
@@ -379,23 +379,23 @@ export function padToWord(size: number): number {
  */
 
 export function repeat(times: number, str: string): string {
-    let out = '';
-    let n = times;
-    let s = str;
+	let out = '';
+	let n = times;
+	let s = str;
 
-    if (n < 1 || n > Number.MAX_VALUE) return out;
+	if (n < 1 || n > Number.MAX_VALUE) return out;
 
-    // https://en.wikipedia.org/wiki/Exponentiation_by_squaring
+	// https://en.wikipedia.org/wiki/Exponentiation_by_squaring
 
-    do {
-        if (n % 2) out += s;
+	do {
+		if (n % 2) out += s;
 
-        n = Math.floor(n / 2);
+		n = Math.floor(n / 2);
 
-        if (n) s += s;
-    } while (n);
+		if (n) s += s;
+	} while (n);
 
-    return out;
+	return out;
 }
 
 const hex = (v: unknown) => parseInt(String(v)).toString(16);

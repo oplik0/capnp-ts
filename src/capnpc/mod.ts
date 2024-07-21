@@ -8,14 +8,14 @@ import initTrace from 'debug';
 import process from 'process';
 import { unlinkSync } from 'fs';
 import {
-    CompilerOptions,
-    createProgram,
-    DiagnosticCategory,
-    flattenDiagnosticMessageText,
-    getPreEmitDiagnostics,
-    ModuleKind,
-    ModuleResolutionKind,
-    ScriptTarget,
+	CompilerOptions,
+	createProgram,
+	DiagnosticCategory,
+	flattenDiagnosticMessageText,
+	getPreEmitDiagnostics,
+	ModuleKind,
+	ModuleResolutionKind,
+	ScriptTarget,
 } from 'typescript';
 
 const trace = initTrace('capnpc');
@@ -30,113 +30,113 @@ trace('load');
  * needs they have.
  */
 const COMPILE_OPTIONS: CompilerOptions = {
-    declaration: true,
-    module: ModuleKind.ES2022,
-    moduleResolution: ModuleResolutionKind.NodeNext,
-    noEmitOnError: false,
-    noFallthroughCasesInSwitch: true,
-    noImplicitReturns: true,
-    noUnusedLocals: false,
-    noUnusedParameters: false,
-    preserveConstEnums: true,
-    removeComments: false,
-    skipLibCheck: true,
-    sourceMap: false,
-    strict: true,
-    stripInternal: true,
-    target: ScriptTarget.ES2022,
+	declaration: true,
+	module: ModuleKind.ES2022,
+	moduleResolution: ModuleResolutionKind.NodeNext,
+	noEmitOnError: false,
+	noFallthroughCasesInSwitch: true,
+	noImplicitReturns: true,
+	noUnusedLocals: false,
+	noUnusedParameters: false,
+	preserveConstEnums: true,
+	removeComments: false,
+	skipLibCheck: true,
+	sourceMap: false,
+	strict: true,
+	stripInternal: true,
+	target: ScriptTarget.ES2022,
 };
 
 export async function main(): Promise<void> {
-    try {
-        const ctx = await run();
-        transpileAll(ctx);
-    } catch (err) {
-        console.error(err);
-        process.exit(1);
-    }
+	try {
+		const ctx = await run();
+		transpileAll(ctx);
+	} catch (err) {
+		console.error(err);
+		process.exit(1);
+	}
 }
 
 export async function run(): Promise<CodeGeneratorContext> {
-    const chunks: Buffer[] = [];
+	const chunks: Buffer[] = [];
 
-    process.stdin.on('data', (chunk: Buffer) => {
-        trace('reading data chunk (%d bytes)', chunk.byteLength);
-        chunks.push(chunk);
-    });
+	process.stdin.on('data', (chunk: Buffer) => {
+		trace('reading data chunk (%d bytes)', chunk.byteLength);
+		chunks.push(chunk);
+	});
 
-    await new Promise((resolve) => {
-        process.stdin.on('end', resolve);
-    });
+	await new Promise((resolve) => {
+		process.stdin.on('end', resolve);
+	});
 
-    const reqBuffer = Buffer.alloc(chunks.reduce((l, chunk) => l + chunk.byteLength, 0));
+	const reqBuffer = Buffer.alloc(chunks.reduce((l, chunk) => l + chunk.byteLength, 0));
 
-    let i = 0;
-    chunks.forEach((chunk) => {
-        chunk.copy(reqBuffer, i);
-        i += chunk.byteLength;
-    });
+	let i = 0;
+	chunks.forEach((chunk) => {
+		chunk.copy(reqBuffer, i);
+		i += chunk.byteLength;
+	});
 
-    trace('reqBuffer (length: %d)', reqBuffer.length, reqBuffer);
+	trace('reqBuffer (length: %d)', reqBuffer.length, reqBuffer);
 
-    const message = new capnp.Message(reqBuffer, false);
+	const message = new capnp.Message(reqBuffer, false);
 
-    trace('message: %s', message.dump());
+	trace('message: %s', message.dump());
 
-    const req = message.getRoot(s.CodeGeneratorRequest);
+	const req = message.getRoot(s.CodeGeneratorRequest);
 
-    trace('%s', req);
+	trace('%s', req);
 
-    const ctx = loadRequest(req);
+	const ctx = loadRequest(req);
 
-    writeTsFiles(ctx);
+	writeTsFiles(ctx);
 
-    return ctx;
+	return ctx;
 }
 
 export function transpileAll(ctx: CodeGeneratorContext): void {
-    trace('transpileAll()', ctx.files);
+	trace('transpileAll()', ctx.files);
 
-    const tsFilePaths = ctx.files.map((f) => f.tsPath);
+	const tsFilePaths = ctx.files.map((f) => f.tsPath);
 
-    const program = createProgram(tsFilePaths, COMPILE_OPTIONS);
+	const program = createProgram(tsFilePaths, COMPILE_OPTIONS);
 
-    const emitResult = program.emit();
+	const emitResult = program.emit();
 
-    if (
-        emitResult.diagnostics.every(
-            (d) =>
-                d.category !== DiagnosticCategory.Error ||
-                // "Cannot find module" errors are typically only temporary and will reappear quickly if it's an actual problem.
-                flattenDiagnosticMessageText(d.messageText, '\n').includes('Cannot find module'),
-        )
-    ) {
-        trace('emit succeeded');
+	if (
+		emitResult.diagnostics.every(
+			(d) =>
+				d.category !== DiagnosticCategory.Error ||
+				// "Cannot find module" errors are typically only temporary and will reappear quickly if it's an actual problem.
+				flattenDiagnosticMessageText(d.messageText, '\n').includes('Cannot find module'),
+		)
+	) {
+		trace('emit succeeded');
 
-        tsFilePaths.forEach(unlinkSync);
-    } else {
-        trace('emit failed');
+		tsFilePaths.forEach(unlinkSync);
+	} else {
+		trace('emit failed');
 
-        const allDiagnostics = getPreEmitDiagnostics(program).concat(emitResult.diagnostics);
+		const allDiagnostics = getPreEmitDiagnostics(program).concat(emitResult.diagnostics);
 
-        allDiagnostics.forEach((diagnostic) => {
-            const message = flattenDiagnosticMessageText(diagnostic.messageText, '\n');
+		allDiagnostics.forEach((diagnostic) => {
+			const message = flattenDiagnosticMessageText(diagnostic.messageText, '\n');
 
-            if (diagnostic.file && diagnostic.start) {
-                const { line, character } = diagnostic.file.getLineAndCharacterOfPosition(diagnostic.start);
+			if (diagnostic.file && diagnostic.start) {
+				const { line, character } = diagnostic.file.getLineAndCharacterOfPosition(diagnostic.start);
 
-                /* tslint:disable-next-line:no-console */
-                console.log(`${diagnostic.file.fileName}:${line + 1}:${character + 1} ${message}`);
-            } else {
-                /* tslint:disable-next-line:no-console */
-                console.log(`==> ${message}`);
-            }
-        });
+				/* tslint:disable-next-line:no-console */
+				console.log(`${diagnostic.file.fileName}:${line + 1}:${character + 1} ${message}`);
+			} else {
+				/* tslint:disable-next-line:no-console */
+				console.log(`==> ${message}`);
+			}
+		});
 
-        throw new Error(E.GEN_TS_EMIT_FAILED);
-    }
+		throw new Error(E.GEN_TS_EMIT_FAILED);
+	}
 }
 
 if (import.meta.main) {
-    main();
+	main();
 }

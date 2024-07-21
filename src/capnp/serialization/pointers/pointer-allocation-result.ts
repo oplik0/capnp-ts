@@ -20,12 +20,12 @@ trace('load');
  */
 
 export class PointerAllocationResult {
-    readonly offsetWords: number;
+	readonly offsetWords: number;
 
-    readonly pointer: Pointer;
+	readonly pointer: Pointer;
 
-    constructor(pointer: Pointer, offsetWords: number) {
-        this.pointer = pointer;
-        this.offsetWords = offsetWords;
-    }
+	constructor(pointer: Pointer, offsetWords: number) {
+		this.pointer = pointer;
+		this.offsetWords = offsetWords;
+	}
 }

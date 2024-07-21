@@ -5,5 +5,5 @@
 import { CodeGeneratorFileContext } from './code-generator-file-context.ts';
 
 export class CodeGeneratorContext {
-    files: CodeGeneratorFileContext[] = [];
+	files: CodeGeneratorFileContext[] = [];
 }

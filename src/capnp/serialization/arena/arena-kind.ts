@@ -1,4 +1,4 @@
 export enum ArenaKind {
-    SINGLE_SEGMENT,
-    MULTI_SEGMENT,
+	SINGLE_SEGMENT,
+	MULTI_SEGMENT,
 }

@@ -6,21 +6,21 @@ import { ListElementSize } from '../list-element-size.ts';
 import { getWordLength, ObjectSize } from '../object-size.ts';
 import { Segment } from '../segment.ts';
 import {
-    erase,
-    erasePointer,
-    getCapabilityId,
-    getContent,
-    getListByteLength,
-    getTargetCompositeListSize,
-    getTargetListElementSize,
-    getTargetListLength,
-    getTargetPointerType,
-    getTargetStructSize,
-    initPointer,
-    Pointer,
-    setInterfacePointer,
-    setListPointer,
-    setStructPointer,
+	erase,
+	erasePointer,
+	getCapabilityId,
+	getContent,
+	getListByteLength,
+	getTargetCompositeListSize,
+	getTargetListElementSize,
+	getTargetListLength,
+	getTargetPointerType,
+	getTargetStructSize,
+	initPointer,
+	Pointer,
+	setInterfacePointer,
+	setListPointer,
+	setStructPointer,
 } from './pointer.ts';
 import { PointerType } from './pointer-type.ts';
 
@@ -28,11 +28,11 @@ const trace = initTrace('capnp:orphan');
 trace('load');
 
 export interface _Orphan {
-    capId: number;
-    elementSize: ListElementSize;
-    length: number;
-    size: ObjectSize;
-    type: PointerType;
+	capId: number;
+	elementSize: ListElementSize;
+	length: number;
+	size: ObjectSize;
+	type: PointerType;
 }
 
 // Technically speaking this class doesn't need to be generic, but the extra type checking enforced by this helps to
@@ -50,139 +50,139 @@ export interface _Orphan {
  */
 
 export class Orphan<T extends Pointer> {
-    /** If this member is not present then the orphan has already been adopted, or something went very wrong. */
-    _capnp?: _Orphan;
+	/** If this member is not present then the orphan has already been adopted, or something went very wrong. */
+	_capnp?: _Orphan;
 
-    byteOffset: number;
-    segment: Segment;
+	byteOffset: number;
+	segment: Segment;
 
-    constructor(src: T) {
-        const c = getContent(src);
+	constructor(src: T) {
+		const c = getContent(src);
 
-        this.segment = c.segment;
-        this.byteOffset = c.byteOffset;
+		this.segment = c.segment;
+		this.byteOffset = c.byteOffset;
 
-        this._capnp = {} as _Orphan;
+		this._capnp = {} as _Orphan;
 
-        // Read vital info from the src pointer so we can reconstruct it during adoption.
+		// Read vital info from the src pointer so we can reconstruct it during adoption.
 
-        this._capnp.type = getTargetPointerType(src);
+		this._capnp.type = getTargetPointerType(src);
 
-        switch (this._capnp.type) {
-            case PointerType.STRUCT:
-                this._capnp.size = getTargetStructSize(src);
+		switch (this._capnp.type) {
+			case PointerType.STRUCT:
+				this._capnp.size = getTargetStructSize(src);
 
-                break;
+				break;
 
-            case PointerType.LIST:
-                this._capnp.length = getTargetListLength(src);
-                this._capnp.elementSize = getTargetListElementSize(src);
+			case PointerType.LIST:
+				this._capnp.length = getTargetListLength(src);
+				this._capnp.elementSize = getTargetListElementSize(src);
 
-                if (this._capnp.elementSize === ListElementSize.COMPOSITE) {
-                    this._capnp.size = getTargetCompositeListSize(src);
-                }
+				if (this._capnp.elementSize === ListElementSize.COMPOSITE) {
+					this._capnp.size = getTargetCompositeListSize(src);
+				}
 
-                break;
+				break;
 
-            case PointerType.OTHER:
-                this._capnp.capId = getCapabilityId(src);
+			case PointerType.OTHER:
+				this._capnp.capId = getCapabilityId(src);
 
-                break;
+				break;
 
-            default:
-                // COVERAGE: Unreachable code.
-                /* istanbul ignore next */
-                throw new Error(PTR_INVALID_POINTER_TYPE);
-        }
+			default:
+				// COVERAGE: Unreachable code.
+				/* istanbul ignore next */
+				throw new Error(PTR_INVALID_POINTER_TYPE);
+		}
 
-        // Zero out the source pointer (but not the contents!).
+		// Zero out the source pointer (but not the contents!).
 
-        erasePointer(src);
-    }
+		erasePointer(src);
+	}
 
-    /**
-     * Adopt (move) this orphan into the target pointer location. This will allocate far pointers in `dst` as needed.
-     *
-     * @param {T} dst The destination pointer.
-     * @returns {void}
-     */
+	/**
+	 * Adopt (move) this orphan into the target pointer location. This will allocate far pointers in `dst` as needed.
+	 *
+	 * @param {T} dst The destination pointer.
+	 * @returns {void}
+	 */
 
-    _moveTo(dst: T): void {
-        if (this._capnp === undefined) {
-            throw new Error(format(PTR_ALREADY_ADOPTED, this));
-        }
+	_moveTo(dst: T): void {
+		if (this._capnp === undefined) {
+			throw new Error(format(PTR_ALREADY_ADOPTED, this));
+		}
 
-        // TODO: Implement copy semantics when this happens.
-        if (this.segment.message !== dst.segment.message) {
-            throw new Error(format(PTR_ADOPT_WRONG_MESSAGE, this, dst));
-        }
+		// TODO: Implement copy semantics when this happens.
+		if (this.segment.message !== dst.segment.message) {
+			throw new Error(format(PTR_ADOPT_WRONG_MESSAGE, this, dst));
+		}
 
-        // Recursively wipe out the destination pointer first.
+		// Recursively wipe out the destination pointer first.
 
-        erase(dst);
+		erase(dst);
 
-        const res = initPointer(this.segment, this.byteOffset, dst);
+		const res = initPointer(this.segment, this.byteOffset, dst);
 
-        switch (this._capnp.type) {
-            case PointerType.STRUCT:
-                setStructPointer(res.offsetWords, this._capnp.size, res.pointer);
+		switch (this._capnp.type) {
+			case PointerType.STRUCT:
+				setStructPointer(res.offsetWords, this._capnp.size, res.pointer);
 
-                break;
+				break;
 
-            case PointerType.LIST: {
-                let offsetWords = res.offsetWords;
+			case PointerType.LIST: {
+				let offsetWords = res.offsetWords;
 
-                if (this._capnp.elementSize === ListElementSize.COMPOSITE) {
-                    offsetWords--; // The tag word gets skipped.
-                }
+				if (this._capnp.elementSize === ListElementSize.COMPOSITE) {
+					offsetWords--; // The tag word gets skipped.
+				}
 
-                setListPointer(offsetWords, this._capnp.elementSize, this._capnp.length, res.pointer, this._capnp.size);
+				setListPointer(offsetWords, this._capnp.elementSize, this._capnp.length, res.pointer, this._capnp.size);
 
-                break;
-            }
-            case PointerType.OTHER:
-                setInterfacePointer(this._capnp.capId, res.pointer);
+				break;
+			}
+			case PointerType.OTHER:
+				setInterfacePointer(this._capnp.capId, res.pointer);
 
-                break;
+				break;
 
-            /* istanbul ignore next */
-            default:
-                throw new Error(PTR_INVALID_POINTER_TYPE);
-        }
+			/* istanbul ignore next */
+			default:
+				throw new Error(PTR_INVALID_POINTER_TYPE);
+		}
 
-        this._capnp = undefined;
-    }
+		this._capnp = undefined;
+	}
 
-    dispose(): void {
-        // FIXME: Should this throw?
-        if (this._capnp === undefined) {
-            trace('not disposing an already disposed orphan', this);
+	dispose(): void {
+		// FIXME: Should this throw?
+		if (this._capnp === undefined) {
+			trace('not disposing an already disposed orphan', this);
 
-            return;
-        }
+			return;
+		}
 
-        switch (this._capnp.type) {
-            case PointerType.STRUCT:
-                this.segment.fillZeroWords(this.byteOffset, getWordLength(this._capnp.size));
+		switch (this._capnp.type) {
+			case PointerType.STRUCT:
+				this.segment.fillZeroWords(this.byteOffset, getWordLength(this._capnp.size));
 
-                break;
+				break;
 
-            case PointerType.LIST: {
-                const byteLength = getListByteLength(this._capnp.elementSize, this._capnp.length, this._capnp.size);
-                this.segment.fillZeroWords(this.byteOffset, byteLength);
+			case PointerType.LIST: {
+				const byteLength = getListByteLength(this._capnp.elementSize, this._capnp.length, this._capnp.size);
+				this.segment.fillZeroWords(this.byteOffset, byteLength);
 
-                break;
-            }
-            default:
-                // Other pointer types don't actually have any content.
+				break;
+			}
+			default:
+				// Other pointer types don't actually have any content.
 
-                break;
-        }
+				break;
+		}
 
-        this._capnp = undefined;
-    }
+		this._capnp = undefined;
+	}
 
-    toString(): string {
-        return format('Orphan_%d@%a,type:%s', this.segment.id, this.byteOffset, this._capnp && this._capnp.type);
-    }
+	toString(): string {
+		return format('Orphan_%d@%a,type:%s', this.segment.id, this.byteOffset, this._capnp && this._capnp.type);
+	}
 }

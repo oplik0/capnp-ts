@@ -8,11 +8,11 @@ type DataViewSetter<T> = (byteOffset: number, value: T, littleEndian?: boolean) 
 type PrimitiveMask<T> = (x: T) => DataView;
 
 function _makePrimitiveMaskFn<T>(byteLength: number, setter: DataViewSetter<T>): PrimitiveMask<T> {
-    return (x: T): DataView => {
-        const dv = new DataView(new ArrayBuffer(byteLength));
-        setter.call(dv, 0, x, true);
-        return dv;
-    };
+	return (x: T): DataView => {
+		const dv = new DataView(new ArrayBuffer(byteLength));
+		setter.call(dv, 0, x, true);
+		return dv;
+	};
 }
 
 /* eslint-disable @typescript-eslint/unbound-method */
@@ -29,14 +29,14 @@ export const getUint8Mask: PrimitiveMask<number> = _makePrimitiveMaskFn(1, DataV
 /* eslint-enable */
 
 export function getBitMask(value: boolean, bitOffset: number): DataView {
-    const dv = new DataView(new ArrayBuffer(1));
+	const dv = new DataView(new ArrayBuffer(1));
 
-    if (!value) return dv;
+	if (!value) return dv;
 
-    dv.setUint8(0, 1 << bitOffset % 8);
-    return dv;
+	dv.setUint8(0, 1 << bitOffset % 8);
+	return dv;
 }
 
 export function getVoidMask(): void {
-    throw new Error(INVARIANT_UNREACHABLE_CODE);
+	throw new Error(INVARIANT_UNREACHABLE_CODE);
 }

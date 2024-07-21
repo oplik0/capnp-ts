@@ -13,28 +13,28 @@ const trace = initTrace('capnp:list:composite');
 trace('load');
 
 export class TextList extends List<string> {
-    static readonly _capnp: _ListCtor = {
-        displayName: 'List<Text>' as string,
-        size: ListElementSize.POINTER,
-    };
+	static readonly _capnp: _ListCtor = {
+		displayName: 'List<Text>' as string,
+		size: ListElementSize.POINTER,
+	};
 
-    get(index: number): string {
-        const c = getContent(this);
+	get(index: number): string {
+		const c = getContent(this);
 
-        c.byteOffset += index * 8;
+		c.byteOffset += index * 8;
 
-        return Text.fromPointer(c).get(0);
-    }
+		return Text.fromPointer(c).get(0);
+	}
 
-    set(index: number, value: string): void {
-        const c = getContent(this);
+	set(index: number, value: string): void {
+		const c = getContent(this);
 
-        c.byteOffset += index * 8;
+		c.byteOffset += index * 8;
 
-        Text.fromPointer(c).set(0, value);
-    }
+		Text.fromPointer(c).set(0, value);
+	}
 
-    toString(): string {
-        return `Text_${super.toString()}`;
-    }
+	toString(): string {
+		return `Text_${super.toString()}`;
+	}
 }
