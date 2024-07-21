@@ -85,7 +85,7 @@ export const PTR_WRONG_STRUCT_PTR_SIZE =
 export const RANGE_INT32_OVERFLOW = 'CAPNP-TS029 32-bit signed integer overflow detected.';
 export const RANGE_INT64_UNDERFLOW = 'CAPNP-TS030 Buffer is not large enough to hold a word.';
 export const RANGE_INVALID_UTF8 = 'CAPNP-TS031 Invalid UTF-8 code sequence detected.';
-export const RANGE_SIZE_OVERFLOW = `CAPNP-TS032 Size %x exceeds maximum ${MAX_SEGMENT_LENGTH.toString(16)}.`;
+export const RANGE_SIZE_OVERFLOW: string = `CAPNP-TS032 Size %x exceeds maximum ${MAX_SEGMENT_LENGTH.toString(16)}.`;
 export const RANGE_UINT32_OVERFLOW = 'CAPNP-TS033 32-bit unsigned integer overflow detected.';
 
 // Segment-related errors.
@@ -100,7 +100,7 @@ export const SEG_ID_OUT_OF_BOUNDS = 'CAPNP-TS036 Attempted to get an out-of-boun
 export const SEG_NOT_WORD_ALIGNED = 'CAPNP-TS037 Segment buffer length %d is not a multiple of 8.';
 export const SEG_REPLACEMENT_BUFFER_TOO_SMALL =
 	'CAPNP-TS038 Attempted to replace a segment buffer with one that is smaller than the allocated space.';
-export const SEG_SIZE_OVERFLOW = `CAPNP-TS039 Requested size %x exceeds maximum value (${MAX_SEGMENT_LENGTH}).`;
+export const SEG_SIZE_OVERFLOW: string = `CAPNP-TS039 Requested size %x exceeds maximum value (${MAX_SEGMENT_LENGTH}).`;
 
 // Custom error messages for the built-in `TypeError` class.
 //
