@@ -34,13 +34,13 @@ Why a rewrite? Because:
 Grab the latest library version from deno:
 
 ```shell
-import {...} from "https://deno.land/x/capnp/mod.ts"
+import {...} from "jsr:@opliko/capnp-ts"
 ```
 
 You will need the TypeScript schema compiler as well, globally:
 
 ```shell
-deno install --allow-env --allow-read --allow-write -n capnpc-ts "https://deno.land/x/capnpc/mod.ts"
+deno install --allow-env --allow-read --allow-write -n capnpc-ts "jsr:@opliko/capnp-ts/capnpc"
 ```
 
 The schema compiler is a [Cap'n Proto plugin](https://capnproto.org/otherlang.html#how-to-write-compiler-plugins) and requires the `capnpc` binary in order to do anything useful; follow the [Cap'n Proto installation instructions](https://capnproto.org/install.html) to install it on your system.
@@ -78,7 +78,7 @@ That will generate a file at `/tmp/some-dir/path/to/myschema.capnp.ts`.
 To read a message, do something like the following:
 
 ```typescript
-import * as capnp from "https://deno.land/x/capnp/mod.ts";
+import * as capnp from "jsr:@opliko/capnp-ts";
 
 import { MyStruct } from "./myschema.capnp.ts";
 
